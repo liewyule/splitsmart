@@ -1,10 +1,10 @@
 ﻿import Link from "next/link";
 import { ArrowUpRight, Compass, Sparkles, Users } from "lucide-react";
-import { createClient } from "../lib/supabase/server";
+import { createServerComponentClient } from "../lib/supabase/server";
 import { signOut } from "../lib/actions/auth";
 
 export default async function HomePage() {
-  const supabase = createClient();
+  const supabase = createServerComponentClient();
   const {
     data: { user }
   } = await supabase.auth.getUser();
@@ -128,3 +128,5 @@ export default async function HomePage() {
     </main>
   );
 }
+
+

@@ -1,7 +1,7 @@
 ﻿"use server";
 
 import { redirect } from "next/navigation";
-import { createClient } from "../supabase/server";
+import { createServerActionClient } from "../supabase/server";
 
 function generateCode() {
   const num = Math.floor(Math.random() * 1000000);
@@ -14,7 +14,7 @@ export async function createTripAction(_prevState: any, formData: FormData) {
     return { error: "Trip name is required." };
   }
 
-  const supabase = createClient();
+  const supabase = createServerActionClient();
   const {
     data: { user }
   } = await supabase.auth.getUser();
@@ -79,7 +79,7 @@ export async function lookupTripAction(
     return { error: "Enter a 6-digit code." };
   }
 
-  const supabase = createClient();
+  const supabase = createServerActionClient();
   const { data, error } = await supabase
     .from("trips")
     .select("id, name, code")
@@ -99,7 +99,7 @@ export async function joinTripAction(_prevState: any, formData: FormData) {
     return { error: "Invalid code." };
   }
 
-  const supabase = createClient();
+  const supabase = createServerActionClient();
   const {
     data: { user }
   } = await supabase.auth.getUser();
@@ -129,3 +129,4 @@ export async function joinTripAction(_prevState: any, formData: FormData) {
 
   redirect(`/trip/${trip.code}`);
 }
+

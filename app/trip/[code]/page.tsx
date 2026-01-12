@@ -1,10 +1,10 @@
 ﻿import Link from "next/link";
-import { createClient } from "../../../lib/supabase/server";
+import { createServerComponentClient } from "../../../lib/supabase/server";
 import TripHeader from "../../../components/TripHeader";
 import { formatCurrency } from "../../../lib/format";
 
 export default async function TripDashboard({ params }: { params: { code: string } }) {
-  const supabase = createClient();
+  const supabase = createServerComponentClient();
   const {
     data: { user }
   } = await supabase.auth.getUser();
@@ -82,3 +82,5 @@ export default async function TripDashboard({ params }: { params: { code: string
     </div>
   );
 }
+
+

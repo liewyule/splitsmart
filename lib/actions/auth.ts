@@ -2,10 +2,10 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { createClient } from "../supabase/server";
+import { createServerActionClient } from "../supabase/server";
 
 async function ensureProfile(user: { id: string; email?: string | null; user_metadata?: any }) {
-  const supabase = createClient();
+  const supabase = createServerActionClient();
   const username =
     (user.user_metadata?.username as string | undefined) ??
     (user.email ? user.email.split("@")[0] : "traveler");
@@ -25,7 +25,7 @@ export async function signUp(_prevState: any, formData: FormData) {
     return { error: "All fields are required." };
   }
 
-  const supabase = createClient();
+  const supabase = createServerActionClient();
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
@@ -53,7 +53,7 @@ export async function signIn(_prevState: any, formData: FormData) {
     return { error: "Email and password are required." };
   }
 
-  const supabase = createClient();
+  const supabase = createServerActionClient();
   const { error } = await supabase.auth.signInWithPassword({
     email,
     password
@@ -75,7 +75,8 @@ export async function signIn(_prevState: any, formData: FormData) {
 }
 
 export async function signOut() {
-  const supabase = createClient();
+  const supabase = createServerActionClient();
   await supabase.auth.signOut();
   redirect("/login");
 }
+

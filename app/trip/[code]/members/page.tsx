@@ -1,8 +1,8 @@
 ﻿import TripHeader from "../../../../components/TripHeader";
-import { createClient } from "../../../../lib/supabase/server";
+import { createServerComponentClient } from "../../../../lib/supabase/server";
 
 export default async function MembersPage({ params }: { params: { code: string } }) {
-  const supabase = createClient();
+  const supabase = createServerComponentClient();
   const {
     data: { user }
   } = await supabase.auth.getUser();
@@ -56,3 +56,5 @@ export default async function MembersPage({ params }: { params: { code: string }
     </div>
   );
 }
+
+

@@ -1,7 +1,7 @@
 ﻿"use server";
 
 import { revalidatePath } from "next/cache";
-import { createClient } from "../supabase/server";
+import { createServerActionClient } from "../supabase/server";
 
 export type SplitInput = {
   user_id: string;
@@ -25,7 +25,11 @@ function sumSplits(splits: SplitInput[]) {
   return round2(splits.reduce((sum, split) => sum + split.amount, 0));
 }
 
-async function assertMembership(tripId: string, userId: string, supabase: ReturnType<typeof createClient>) {
+async function assertMembership(
+  tripId: string,
+  userId: string,
+  supabase: ReturnType<typeof createServerActionClient>
+) {
   const { data: member } = await supabase
     .from("trip_members")
     .select("id")
@@ -48,7 +52,7 @@ export async function createExpenseAction(payload: ExpensePayload) {
     return { error: "Splits must equal total amount." };
   }
 
-  const supabase = createClient();
+  const supabase = createServerActionClient();
   const {
     data: { user }
   } = await supabase.auth.getUser();
@@ -111,7 +115,7 @@ export async function updateExpenseAction(payload: ExpensePayload) {
   if (!title || amount <= 0) return { error: "Title and amount are required." };
   if (sumSplits(splits) !== round2(amount)) return { error: "Splits must equal total amount." };
 
-  const supabase = createClient();
+  const supabase = createServerActionClient();
   const {
     data: { user }
   } = await supabase.auth.getUser();
@@ -171,7 +175,7 @@ export async function updateExpenseAction(payload: ExpensePayload) {
 }
 
 export async function deleteExpenseAction(tripCode: string, expenseId: string) {
-  const supabase = createClient();
+  const supabase = createServerActionClient();
   const {
     data: { user }
   } = await supabase.auth.getUser();
@@ -195,3 +199,4 @@ export async function deleteExpenseAction(tripCode: string, expenseId: string) {
 
   return { success: true };
 }
+

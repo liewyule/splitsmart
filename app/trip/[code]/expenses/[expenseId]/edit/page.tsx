@@ -1,14 +1,14 @@
 ﻿import TripHeader from "../../../../../../components/TripHeader";
 import ExpenseForm, { Member } from "../../ExpenseForm";
 import DeleteExpenseButton from "./DeleteExpenseButton";
-import { createClient } from "../../../../../../lib/supabase/server";
+import { createServerComponentClient } from "../../../../../../lib/supabase/server";
 
 export default async function EditExpensePage({
   params
 }: {
   params: { code: string; expenseId: string };
 }) {
-  const supabase = createClient();
+  const supabase = createServerComponentClient();
   const {
     data: { user }
   } = await supabase.auth.getUser();
@@ -100,3 +100,5 @@ export default async function EditExpensePage({
     </div>
   );
 }
+
+

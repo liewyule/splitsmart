@@ -1,10 +1,10 @@
 ﻿import TripHeader from "../../../../components/TripHeader";
-import { createClient } from "../../../../lib/supabase/server";
+import { createServerComponentClient } from "../../../../lib/supabase/server";
 import { computeTransfers } from "../../../../lib/settle";
 import { formatCurrency } from "../../../../lib/format";
 
 export default async function SettlePage({ params }: { params: { code: string } }) {
-  const supabase = createClient();
+  const supabase = createServerComponentClient();
   const {
     data: { user }
   } = await supabase.auth.getUser();
@@ -124,3 +124,5 @@ export default async function SettlePage({ params }: { params: { code: string } 
     </div>
   );
 }
+
+
