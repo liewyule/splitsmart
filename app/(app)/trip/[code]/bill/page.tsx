@@ -36,7 +36,7 @@ export default async function BillPage({ params }: { params: { code: string } })
 
   const { data: paidExpenses } = await supabase
     .from("expenses")
-    .select("amount")
+    .select("id, title, amount, payer_id, created_at, trip_id")
     .eq("trip_id", trip.id)
     .eq("payer_id", user.id);
 
@@ -57,11 +57,30 @@ export default async function BillPage({ params }: { params: { code: string } })
     members?.map((member) => [member.user_id, (member.profiles as any)?.username ?? "Member"]) ?? []
   );
 
-  const items =
-    lineItems?.filter((item) => (item.expenses as any)?.id)?.map((item) => ({
-      splitAmount: Number(item.amount),
-      expense: item.expenses as any
-    })) ?? [];
+  const splitItems =
+    lineItems
+      ?.filter((item) => (item.expenses as any)?.id)
+      ?.map((item) => ({
+        splitAmount: Number(item.amount),
+        expense: item.expenses as any
+      })) ?? [];
+
+  const paidExpenseMap = new Map(
+    paidExpenses?.map((expense) => [expense.id, expense]) ?? []
+  );
+
+  splitItems.forEach((item) => {
+    paidExpenseMap.delete(item.expense.id);
+  });
+
+  const paidOnlyItems = Array.from(paidExpenseMap.values()).map((expense) => ({
+    splitAmount: 0,
+    expense
+  }));
+
+  const items = [...splitItems, ...paidOnlyItems].filter(
+    (item) => item.splitAmount > 0 || item.expense.payer_id === user.id
+  );
 
   const totalOwed = items.reduce((sum, item) => sum + item.splitAmount, 0);
   const net = totalPaid - totalOwed;

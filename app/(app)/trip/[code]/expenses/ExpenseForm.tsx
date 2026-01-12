@@ -123,6 +123,11 @@ export default function ExpenseForm({
   const [splitMode, setSplitMode] = useState<"equal" | "custom">(
     initial ? "custom" : "equal"
   );
+  const defaultIncludedIds =
+    initial?.splits && initial.splits.length
+      ? initial.splits.map((split) => split.user_id)
+      : members.map((member) => member.id);
+  const [includedMemberIds, setIncludedMemberIds] = useState<string[]>(defaultIncludedIds);
   const initialSplits =
     initial?.splits && initial.splits.length
       ? initial.splits
@@ -133,24 +138,37 @@ export default function ExpenseForm({
   const numericAmount = Number(amount || 0);
   const baseTotalFromSplits = useMemo(() => round2(sumSplits(splits)), [splits]);
   const taxRateValue = Number(taxRate || 0);
+  const includedMembers = useMemo(
+    () => members.filter((member) => includedMemberIds.includes(member.id)),
+    [members, includedMemberIds]
+  );
 
   const totals = useMemo(() => {
     return splitMode === "custom"
       ? computeCustomTotals(splits, taxRateValue, taxEnabled)
-      : computeEqualTotals(numericAmount, members, taxRateValue, taxEnabled);
-  }, [splitMode, splits, numericAmount, members, taxRateValue, taxEnabled]);
+      : computeEqualTotals(numericAmount, includedMembers, taxRateValue, taxEnabled);
+  }, [splitMode, splits, numericAmount, includedMembers, taxRateValue, taxEnabled]);
 
   useEffect(() => {
     if (splitMode === "equal" && members.length) {
-      setSplits(computeEqualSplits(numericAmount, members));
+      setSplits(computeEqualSplits(numericAmount, includedMembers));
     }
-  }, [splitMode, numericAmount, members]);
+  }, [splitMode, numericAmount, includedMembers, members.length]);
 
   useEffect(() => {
     if (splitMode === "equal" && !amount && baseTotalFromSplits > 0) {
       setAmount(formatAmount(baseTotalFromSplits));
     }
   }, [splitMode, amount, baseTotalFromSplits]);
+
+  useEffect(() => {
+    if (!members.length) return;
+    const memberIds = members.map((member) => member.id);
+    setIncludedMemberIds((prev) => {
+      const filtered = prev.filter((id) => memberIds.includes(id));
+      return filtered.length ? filtered : memberIds;
+    });
+  }, [members]);
 
   const currentMember = useMemo(
     () => members.find((member) => member.id === currentUserId),
@@ -197,6 +215,10 @@ export default function ExpenseForm({
     }
     if (splitMode === "equal" && numericAmount <= 0) {
       setError("Enter a title and amount.");
+      return;
+    }
+    if (splitMode === "equal" && !includedMembers.length) {
+      setError("Choose at least one person to split with.");
       return;
     }
 
@@ -316,12 +338,31 @@ export default function ExpenseForm({
           {members.map((member) => {
             const memberSplit = splits.find((split) => split.user_id === member.id);
             const equalShare = totals.finalShares.find((split) => split.user_id === member.id);
+            const isIncluded = includedMemberIds.includes(member.id);
             return (
               <div key={member.id} className="flex items-center justify-between">
-                <span className="text-sm">{member.username}</span>
+                {splitMode === "equal" ? (
+                  <label className="flex items-center gap-2 text-sm">
+                    <input
+                      type="checkbox"
+                      className="h-4 w-4"
+                      checked={isIncluded}
+                      onChange={() =>
+                        setIncludedMemberIds((prev) =>
+                          prev.includes(member.id)
+                            ? prev.filter((id) => id !== member.id)
+                            : [...prev, member.id]
+                        )
+                      }
+                    />
+                    <span>{member.username}</span>
+                  </label>
+                ) : (
+                  <span className="text-sm">{member.username}</span>
+                )}
                 {splitMode === "equal" ? (
                   <span className="text-sm font-semibold">
-                    {formatCurrency(equalShare?.amount ?? 0)}
+                    {formatCurrency(isIncluded ? equalShare?.amount ?? 0 : 0)}
                   </span>
                 ) : (
                   <div className="flex flex-col items-end gap-1">
