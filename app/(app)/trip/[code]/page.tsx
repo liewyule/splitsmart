@@ -1,6 +1,6 @@
 ﻿import Link from "next/link";
-import { createServerComponentClient } from "../../../../../lib/supabase/server";
-import { formatCurrency } from "../../../../../lib/format";
+import { createServerComponentClient } from "../../../../lib/supabase/server";
+import { formatCurrency } from "../../../../lib/format";
 
 export default async function TripDashboard({ params }: { params: { code: string } }) {
   const supabase = createServerComponentClient();
