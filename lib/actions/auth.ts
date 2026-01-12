@@ -71,7 +71,7 @@ export async function signIn(_prevState: any, formData: FormData) {
   }
 
   revalidatePath("/");
-  redirect("/");
+  return { success: true };
 }
 
 export async function signOut() {

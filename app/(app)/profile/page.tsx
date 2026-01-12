@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { createServerComponentClient } from "../../../lib/supabase/server";
 import { signOut } from "../../../lib/actions/auth";
 import FadeIn from "../../../components/FadeIn";
+import { User } from "lucide-react";
 
 export default async function ProfilePage() {
   const supabase = createServerComponentClient();
@@ -21,9 +22,14 @@ export default async function ProfilePage() {
 
   return (
     <main className="min-h-screen pb-6">
-      <div className="pt-6">
-        <h1 className="text-2xl font-semibold">Profile</h1>
-        <p className="mt-1 text-sm text-muted">Manage your SplitSmart account.</p>
+      <div className="flex items-center gap-3 pt-6">
+        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-accentSoft text-accent">
+          <User className="h-6 w-6" />
+        </div>
+        <div>
+          <h1 className="text-2xl font-semibold">Profile</h1>
+          <p className="mt-1 text-sm text-muted">Manage your SplitSmart account.</p>
+        </div>
       </div>
 
       <FadeIn className="mt-6 space-y-4">

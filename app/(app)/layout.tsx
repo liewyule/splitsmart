@@ -1,4 +1,7 @@
-﻿import GlobalNav from "../../components/GlobalNav";
+import GlobalNav from "../../components/GlobalNav";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (

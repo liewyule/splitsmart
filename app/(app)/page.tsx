@@ -1,9 +1,11 @@
 import Link from "next/link";
-import { ChevronRight, Compass, LogOut, Sparkles, Users } from "lucide-react";
+import { ChevronRight, Compass, Sparkles } from "lucide-react";
 import { redirect } from "next/navigation";
 import { createServerComponentClient } from "../../lib/supabase/server";
-import { signOut } from "../../lib/actions/auth";
 import FadeIn from "../../components/FadeIn";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default async function HomePage() {
   const supabase = createServerComponentClient();
@@ -23,29 +25,11 @@ export default async function HomePage() {
 
   return (
     <main className="flex min-h-screen flex-col pb-6">
-      <div className="flex items-center justify-between pt-6">
+      <div className="pt-6">
         <div>
           <p className="text-sm text-muted">Welcome</p>
           <h1 className="text-2xl font-semibold">{profile?.username ?? "Traveler"}</h1>
         </div>
-        <details className="relative">
-          <summary className="list-none">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accentSoft text-accent">
-              <Users className="h-5 w-5" />
-            </div>
-          </summary>
-          <div className="absolute right-0 mt-2 w-44 rounded-xl border border-border/70 bg-white p-2 shadow-soft">
-            <form action={signOut}>
-              <button
-                type="submit"
-                className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-ink hover:bg-accentSoft pressable"
-              >
-                <LogOut className="h-4 w-4" />
-                Sign out
-              </button>
-            </form>
-          </div>
-        </details>
       </div>
 
       <FadeIn className="mt-6 space-y-4">
