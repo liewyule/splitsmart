@@ -2,6 +2,7 @@
 
 import { useFormState } from "react-dom";
 import { joinTripAction, lookupTripAction } from "../../../../lib/actions/trips";
+import SubmitButton from "../../../../components/SubmitButton";
 
 const initialState = { error: "" as string, trip: undefined as undefined | { id: string; name: string; code: string } };
 
@@ -24,9 +25,7 @@ export default function JoinTripForm() {
           />
         </label>
         {state?.error ? <p className="text-sm text-rose-600">{state.error}</p> : null}
-        <button type="submit" className="btn btn-primary w-full">
-          Find trip
-        </button>
+        <SubmitButton label="Find trip" />
       </form>
 
       {state.trip ? (
@@ -39,13 +38,10 @@ export default function JoinTripForm() {
             {joinState?.error ? (
               <p className="mb-2 text-sm text-rose-600">{joinState.error}</p>
             ) : null}
-            <button className="btn btn-primary w-full" type="submit">
-              Join trip
-            </button>
+            <SubmitButton label="Join trip" />
           </form>
         </div>
       ) : null}
     </div>
   );
 }
-

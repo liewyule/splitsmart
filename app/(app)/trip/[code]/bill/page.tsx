@@ -1,5 +1,4 @@
 ﻿import Link from "next/link";
-import TripHeader from "../../../../../components/TripHeader";
 import { createServerComponentClient } from "../../../../../lib/supabase/server";
 import { formatCurrency, formatDate } from "../../../../../lib/format";
 
@@ -18,7 +17,6 @@ export default async function BillPage({ params }: { params: { code: string } })
   if (!trip || !user) {
     return (
       <div className="py-6">
-        <TripHeader title="My bill" backHref={`/trip/${params.code}`} />
         <p className="text-sm text-muted">Trip not found.</p>
       </div>
     );
@@ -34,7 +32,6 @@ export default async function BillPage({ params }: { params: { code: string } })
   if (!membership) {
     return (
       <div className="py-6">
-        <TripHeader title="My bill" backHref={`/trip/${params.code}`} />
         <p className="text-sm text-muted">You are not a member of this trip.</p>
       </div>
     );
@@ -65,7 +62,6 @@ export default async function BillPage({ params }: { params: { code: string } })
 
   return (
     <div className="py-6">
-      <TripHeader title="My bill" backHref={`/trip/${params.code}`} />
       <div className="card p-5">
         <div className="flex items-center justify-between text-sm">
           <span className="text-muted">Total paid</span>
@@ -120,6 +116,3 @@ export default async function BillPage({ params }: { params: { code: string } })
     </div>
   );
 }
-
-
-

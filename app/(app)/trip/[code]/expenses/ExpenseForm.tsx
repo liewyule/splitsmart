@@ -269,8 +269,16 @@ export default function ExpenseForm({
 
       {error ? <p className="text-sm text-rose-600">{error}</p> : null}
 
-      <button className="btn btn-primary w-full" onClick={handleSubmit} disabled={isPending}>
-        {mode === "edit" ? "Save changes" : "Add expense"}
+      <button
+        className="btn btn-primary w-full"
+        onClick={handleSubmit}
+        disabled={isPending || uploading}
+      >
+        {isPending || uploading
+          ? "Please wait..."
+          : mode === "edit"
+            ? "Save changes"
+            : "Add expense"}
       </button>
     </div>
   );

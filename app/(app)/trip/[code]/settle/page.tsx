@@ -1,5 +1,4 @@
-﻿import TripHeader from "../../../../../components/TripHeader";
-import { createServerComponentClient } from "../../../../../lib/supabase/server";
+﻿import { createServerComponentClient } from "../../../../../lib/supabase/server";
 import { computeTransfers } from "../../../../../lib/settle";
 import { formatCurrency } from "../../../../../lib/format";
 
@@ -18,7 +17,6 @@ export default async function SettlePage({ params }: { params: { code: string } 
   if (!trip || !user) {
     return (
       <div className="py-6">
-        <TripHeader title="Settle" backHref={`/trip/${params.code}`} />
         <p className="text-sm text-muted">Trip not found.</p>
       </div>
     );
@@ -34,7 +32,6 @@ export default async function SettlePage({ params }: { params: { code: string } 
   if (!membership) {
     return (
       <div className="py-6">
-        <TripHeader title="Settle" backHref={`/trip/${params.code}`} />
         <p className="text-sm text-muted">You are not a member of this trip.</p>
       </div>
     );
@@ -92,29 +89,38 @@ export default async function SettlePage({ params }: { params: { code: string } 
   }));
 
   const transfers = computeTransfers(balances);
+  const meName = members.find((member) => member.id === user.id)?.username ?? "You";
+  const myTransfers = transfers.filter(
+    (transfer) => transfer.from === meName || transfer.to === meName
+  );
 
   return (
     <div className="py-6">
-      <TripHeader title="Settle" backHref={`/trip/${params.code}`} />
-      <p className="mt-2 text-sm text-muted">Suggested transfers to settle the trip.</p>
+      <p className="mt-2 text-sm text-muted">Your settlement actions for this trip.</p>
 
       <div className="mt-5 space-y-3">
-        {transfers.length ? (
-          transfers.map((transfer, index) => (
+        {myTransfers.length ? (
+          myTransfers.map((transfer, index) => (
             <div key={`${transfer.from}-${transfer.to}-${index}`} className="card p-4">
               <p className="text-sm">
-                <span className="font-semibold">{transfer.from}</span> pays{" "}
-                <span className="font-semibold">{transfer.to}</span> {formatCurrency(transfer.amount)}
+                {transfer.from === meName ? (
+                  <>
+                    You pay <span className="font-semibold">{transfer.to}</span>{" "}
+                    {formatCurrency(transfer.amount)}
+                  </>
+                ) : (
+                  <>
+                    You receive from <span className="font-semibold">{transfer.from}</span>{" "}
+                    {formatCurrency(transfer.amount)}
+                  </>
+                )}
               </p>
             </div>
           ))
         ) : (
-          <div className="card p-6 text-sm text-muted">No transfers needed.</div>
+          <div className="card p-6 text-sm text-muted">You are settled up.</div>
         )}
       </div>
     </div>
   );
 }
-
-
-

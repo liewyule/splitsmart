@@ -1,7 +1,6 @@
 ﻿import Link from "next/link";
-import { createServerComponentClient } from "../../../../lib/supabase/server";
-import TripHeader from "../../../../components/TripHeader";
-import { formatCurrency } from "../../../../lib/format";
+import { createServerComponentClient } from "../../../../../lib/supabase/server";
+import { formatCurrency } from "../../../../../lib/format";
 
 export default async function TripDashboard({ params }: { params: { code: string } }) {
   const supabase = createServerComponentClient();
@@ -18,7 +17,6 @@ export default async function TripDashboard({ params }: { params: { code: string
   if (!trip) {
     return (
       <div className="py-10">
-        <TripHeader title="Trip not found" backHref="/" />
         <p className="text-sm text-muted">This trip code does not exist.</p>
       </div>
     );
@@ -34,7 +32,6 @@ export default async function TripDashboard({ params }: { params: { code: string
   if (!membership) {
     return (
       <div className="py-10">
-        <TripHeader title={trip.name} backHref="/" />
         <p className="text-sm text-muted">You are not a member of this trip.</p>
       </div>
     );
@@ -54,8 +51,6 @@ export default async function TripDashboard({ params }: { params: { code: string
 
   return (
     <div className="py-6">
-      <TripHeader title={trip.name} backHref="/" />
-
       <div className="card p-5">
         <p className="text-sm text-muted">Trip code</p>
         <h2 className="mt-2 text-2xl font-semibold tracking-[0.25em]">{trip.code}</h2>
@@ -82,6 +77,3 @@ export default async function TripDashboard({ params }: { params: { code: string
     </div>
   );
 }
-
-
-

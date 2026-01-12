@@ -1,5 +1,4 @@
-﻿import TripHeader from "../../../../../../../components/TripHeader";
-import ExpenseForm, { Member } from "../../ExpenseForm";
+﻿import ExpenseForm, { Member } from "../../ExpenseForm";
 import DeleteExpenseButton from "./DeleteExpenseButton";
 import { createServerComponentClient } from "../../../../../../../lib/supabase/server";
 
@@ -22,7 +21,6 @@ export default async function EditExpensePage({
   if (!trip) {
     return (
       <div className="py-6">
-        <TripHeader title="Edit expense" backHref={`/trip/${params.code}/expenses`} />
         <p className="text-sm text-muted">Trip not found.</p>
       </div>
     );
@@ -38,7 +36,6 @@ export default async function EditExpensePage({
   if (!membership || !user) {
     return (
       <div className="py-6">
-        <TripHeader title="Edit expense" backHref={`/trip/${params.code}/expenses`} />
         <p className="text-sm text-muted">You are not a member of this trip.</p>
       </div>
     );
@@ -53,7 +50,6 @@ export default async function EditExpensePage({
   if (!expense) {
     return (
       <div className="py-6">
-        <TripHeader title="Edit expense" backHref={`/trip/${params.code}/expenses`} />
         <p className="text-sm text-muted">Expense not found.</p>
       </div>
     );
@@ -77,7 +73,6 @@ export default async function EditExpensePage({
 
   return (
     <div className="py-6">
-      <TripHeader title="Edit expense" backHref={`/trip/${params.code}/expenses`} />
       <ExpenseForm
         tripCode={trip.code}
         members={members}
@@ -101,6 +96,3 @@ export default async function EditExpensePage({
     </div>
   );
 }
-
-
-

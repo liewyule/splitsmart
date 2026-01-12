@@ -27,12 +27,12 @@ export default function TripsClient({ trips }: { trips: TripCard[] }) {
       <label className="block">
         <span className="sr-only">Search trips</span>
         <div className="relative">
-          <Search className="absolute left-3 top-3 h-4 w-4 text-muted" />
+         
           <input
-            className="input pl-9"
+            className="input pl-10"
             placeholder="Search by trip name or code"
             value={query}
-            onChange={(event) => setQuery(event.target.value)}
+            onChange={(e) => setQuery(e.target.value)}
           />
         </div>
       </label>

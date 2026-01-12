@@ -1,5 +1,4 @@
-﻿import TripHeader from "../../../../../components/TripHeader";
-import { createServerComponentClient } from "../../../../../lib/supabase/server";
+﻿import { createServerComponentClient } from "../../../../../lib/supabase/server";
 
 export default async function MembersPage({ params }: { params: { code: string } }) {
   const supabase = createServerComponentClient();
@@ -16,7 +15,6 @@ export default async function MembersPage({ params }: { params: { code: string }
   if (!trip) {
     return (
       <div className="py-6">
-        <TripHeader title="Members" backHref={`/trip/${params.code}`} />
         <p className="text-sm text-muted">Trip not found.</p>
       </div>
     );
@@ -32,7 +30,6 @@ export default async function MembersPage({ params }: { params: { code: string }
   if (!membership) {
     return (
       <div className="py-6">
-        <TripHeader title="Members" backHref={`/trip/${params.code}`} />
         <p className="text-sm text-muted">You are not a member of this trip.</p>
       </div>
     );
@@ -45,7 +42,6 @@ export default async function MembersPage({ params }: { params: { code: string }
 
   return (
     <div className="py-6">
-      <TripHeader title="Members" backHref={`/trip/${params.code}`} />
       <div className="space-y-3">
         {members?.map((member) => (
           <div key={member.id} className="card p-4 text-sm">
@@ -56,6 +52,3 @@ export default async function MembersPage({ params }: { params: { code: string }
     </div>
   );
 }
-
-
-

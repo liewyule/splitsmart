@@ -1,7 +1,6 @@
-﻿import Link from "next/link";
-import TripHeader from "../../../../../components/TripHeader";
-import { createServerComponentClient } from "../../../../../lib/supabase/server";
+﻿import { createServerComponentClient } from "../../../../../lib/supabase/server";
 import { formatCurrency, formatDate } from "../../../../../lib/format";
+import Link from "next/link";
 
 export default async function ExpensesPage({ params }: { params: { code: string } }) {
   const supabase = createServerComponentClient();
@@ -18,7 +17,6 @@ export default async function ExpensesPage({ params }: { params: { code: string 
   if (!trip) {
     return (
       <div className="py-6">
-        <TripHeader title="Expenses" backHref={`/trip/${params.code}`} />
         <p className="text-sm text-muted">Trip not found.</p>
       </div>
     );
@@ -34,7 +32,6 @@ export default async function ExpensesPage({ params }: { params: { code: string 
   if (!membership) {
     return (
       <div className="py-6">
-        <TripHeader title="Expenses" backHref={`/trip/${params.code}`} />
         <p className="text-sm text-muted">You are not a member of this trip.</p>
       </div>
     );
@@ -57,7 +54,6 @@ export default async function ExpensesPage({ params }: { params: { code: string 
 
   return (
     <div className="py-6">
-      <TripHeader title="Expenses" backHref={`/trip/${params.code}`} />
       <div className="space-y-3">
         {expenses?.length ? (
           expenses.map((expense) => (
@@ -90,6 +86,3 @@ export default async function ExpensesPage({ params }: { params: { code: string 
     </div>
   );
 }
-
-
-
