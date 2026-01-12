@@ -6,20 +6,20 @@ const PUBLIC_PATHS = ["/login", "/signup"];
 export async function middleware(request: NextRequest) {
   const { response, supabase } = updateSession(request);
   const {
-    data: { session }
-  } = await supabase.auth.getSession();
+    data: { user }
+  } = await supabase.auth.getUser();
 
   const isPublic = PUBLIC_PATHS.some((path) =>
     request.nextUrl.pathname.startsWith(path)
   );
 
-  if (!session && !isPublic) {
+  if (!user && !isPublic) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
     return NextResponse.redirect(url);
   }
 
-  if (session && isPublic) {
+  if (user && isPublic) {
     const url = request.nextUrl.clone();
     url.pathname = "/";
     return NextResponse.redirect(url);
