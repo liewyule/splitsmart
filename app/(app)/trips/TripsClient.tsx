@@ -6,6 +6,7 @@ type TripCard = {
   id: string;
   name: string;
   code: string;
+  createdAt: string;
   members: string[];
 };
 
@@ -45,25 +46,15 @@ export default function TripsClient({ trips }: { trips: TripCard[] }) {
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-lg font-semibold">{trip.name}</p>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <p className="text-xl font-semibold">{trip.name}</p>
+                    <p className="text-sm text-muted">· {trip.createdAt}</p>
+                  </div>
                   <p className="mt-1 text-sm text-muted">Code {trip.code}</p>
                 </div>
                 <span className="rounded-full bg-accentSoft px-3 py-1 text-sm font-medium text-accent">
                   {trip.members.length} members
                 </span>
-              </div>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {trip.members.slice(0, 4).map((member) => (
-                  <span
-                    key={`${trip.id}-${member}`}
-                    className="rounded-full border border-border/70 bg-white px-3 py-1 text-sm text-muted"
-                  >
-                    {member}
-                  </span>
-                ))}
-                {trip.members.length > 4 ? (
-                  <span className="text-sm text-muted">+{trip.members.length - 4} more</span>
-                ) : null}
               </div>
             </Link>
           ))}

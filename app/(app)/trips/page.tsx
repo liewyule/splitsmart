@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { createServerComponentClient } from "../../../lib/supabase/server";
+import { formatDateWithYear } from "../../../lib/format";
 import TripsClient from "./TripsClient";
 import FadeIn from "../../../components/FadeIn";
 
@@ -41,6 +42,7 @@ export default async function TripsPage() {
         id: trip.id as string,
         name: trip.name as string,
         code: trip.code as string,
+        createdAt: formatDateWithYear(trip.created_at as string),
         members: membersByTrip.get(row.trip_id) ?? []
       };
     }) ?? [];
