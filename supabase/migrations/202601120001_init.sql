@@ -106,7 +106,10 @@ create policy "trip_members_select" on trip_members
 
 create policy "trip_members_insert_self" on trip_members
   for insert to authenticated
-  with check (user_id = auth.uid());
+  with check (
+    user_id = auth.uid()
+    and exists (select 1 from trips where trips.id = trip_members.trip_id)
+  );
 
 -- expenses policies
 create policy "expenses_select" on expenses
