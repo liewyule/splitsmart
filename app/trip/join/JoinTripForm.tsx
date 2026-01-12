@@ -3,7 +3,7 @@
 import { useFormState } from "react-dom";
 import { joinTripAction, lookupTripAction } from "../../../lib/actions/trips";
 
-const initialState = { error: "", trip: null as null | { id: string; name: string; code: string } };
+const initialState = { error: "" as string, trip: undefined as undefined | { id: string; name: string; code: string } };
 
 export default function JoinTripForm() {
   const [state, formAction] = useFormState(lookupTripAction, initialState);

@@ -70,7 +70,10 @@ export async function createTripAction(_prevState: any, formData: FormData) {
   redirect(`/trip/${trip.code}`);
 }
 
-export async function lookupTripAction(_prevState: any, formData: FormData) {
+export async function lookupTripAction(
+  _prevState: { error: string; trip?: { id: string; name: string; code: string } },
+  formData: FormData
+) {
   const code = String(formData.get("code") || "").trim();
   if (!code || code.length !== 6) {
     return { error: "Enter a 6-digit code." };
@@ -87,7 +90,7 @@ export async function lookupTripAction(_prevState: any, formData: FormData) {
     return { error: "Trip not found." };
   }
 
-  return { trip: data };
+  return { error: "", trip: data };
 }
 
 export async function joinTripAction(_prevState: any, formData: FormData) {
