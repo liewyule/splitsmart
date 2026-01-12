@@ -1,6 +1,7 @@
-﻿import { redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 import { createServerComponentClient } from "../../../lib/supabase/server";
 import { signOut } from "../../../lib/actions/auth";
+import FadeIn from "../../../components/FadeIn";
 
 export default async function ProfilePage() {
   const supabase = createServerComponentClient();
@@ -25,7 +26,7 @@ export default async function ProfilePage() {
         <p className="mt-1 text-sm text-muted">Manage your SplitSmart account.</p>
       </div>
 
-      <div className="mt-6 space-y-4">
+      <FadeIn className="mt-6 space-y-4">
         <div className="card p-5">
           <p className="text-sm text-muted">Username</p>
           <p className="mt-2 text-base font-semibold">{profile?.username ?? "Traveler"}</p>
@@ -41,11 +42,11 @@ export default async function ProfilePage() {
           </p>
         </div>
         <form action={signOut}>
-          <button className="btn btn-primary w-full" type="submit">
+          <button className="btn btn-primary w-full pressable" type="submit">
             Sign out
           </button>
         </form>
-      </div>
+      </FadeIn>
     </main>
   );
 }

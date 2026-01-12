@@ -2,6 +2,7 @@ import Link from "next/link";
 import { createServerComponentClient } from "../../../../../../lib/supabase/server";
 import { formatCurrency, formatDate } from "../../../../../../lib/format";
 import ExpenseDetailActions from "./ExpenseDetailActions";
+import FadeIn from "../../../../../../components/FadeIn";
 
 export default async function ExpenseDetailsPage({
   params
@@ -77,67 +78,72 @@ export default async function ExpenseDetailsPage({
 
   return (
     <div className="py-6 space-y-6">
-      <div className="card p-5 space-y-4">
-        <div className="flex items-start justify-between gap-4">
-          <div>
-           
-            <h1 className="mt-1 text-lg font-semibold">{expense.title}</h1>
-            <p className="text-xs text-muted">{formatDate(expense.created_at)}</p>
-        
-          </div>
-          <div className="flex flex-col items-end gap-2">
-       
-            <p className="text-lg font-semibold">{formatCurrency(Number(expense.amount))}</p>
-            {isOwner ? (
-              <ExpenseDetailActions tripCode={trip.code} expenseId={expense.id} />
-            ) : null}
-          </div>
-        </div>
-
-        <div className="grid gap-3 text-sm">
-          <div className="flex items-center justify-between">
-            <span className="text-muted">Paid by</span>
-            <span className="font-medium">
-              {nameMap.get(expense.payer_id) ?? "Member"}
-            </span>
-          </div>
-
-        </div>
-
-        {expense.receipt_url ? (
-          <div className="space-y-2">
-            <p className="text-sm font-medium">Receipt photo</p>
-            <img
-              src={expense.receipt_url}
-              alt="Receipt"
-              className="h-48 w-full rounded-xl object-cover"
-            />
-          </div>
-        ) : null}
-      </div>
-
-      <div className="card p-5 space-y-3">
-        <div className="flex items-center justify-between">
-          <h2 className="text-sm font-semibold">Split</h2>
-          <span className="text-xs text-muted">{splits?.length ?? 0} people</span>
-        </div>
-        <div className="space-y-2">
-          {splits?.map((split) => (
-            <div key={split.user_id} className="flex items-center justify-between text-sm">
-              <span>{nameMap.get(split.user_id) ?? "Member"}</span>
-              <span className="font-medium">{formatCurrency(Number(split.amount))}</span>
+      <FadeIn className="space-y-6">
+        <div className="card p-5 space-y-4">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="text-xs text-muted">{formatDate(expense.created_at)}</p>
+              <h1 className="mt-1 text-lg font-semibold">{expense.title}</h1>
+              <p className="mt-1 text-xs text-muted">{trip.name}</p>
             </div>
-          ))}
-        </div>
-        <div className="flex items-center justify-between border-t border-border/60 pt-3 text-sm">
-          <span className="text-muted">Split total</span>
-          <span className="font-semibold">{formatCurrency(totalSplit)}</span>
-        </div>
-      </div>
+            <div className="flex flex-col items-end gap-2">
+              <p className="text-lg font-semibold">{formatCurrency(Number(expense.amount))}</p>
+              {isOwner ? (
+                <ExpenseDetailActions tripCode={trip.code} expenseId={expense.id} />
+              ) : null}
+            </div>
+          </div>
 
-      <Link href={`/trip/${trip.code}/expenses`} className="btn btn-ghost w-full">
-        Back to expenses
-      </Link>
+          <div className="grid gap-3 text-sm">
+            <div className="flex items-center justify-between">
+              <span className="text-muted">Paid by</span>
+              <span className="font-medium">
+                {nameMap.get(expense.payer_id) ?? "Member"}
+              </span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-muted">Created by</span>
+              <span className="font-medium">
+                {nameMap.get(expense.created_by) ?? "Member"}
+              </span>
+            </div>
+          </div>
+
+          {expense.receipt_url ? (
+            <div className="space-y-2">
+              <p className="text-sm font-medium">Receipt photo</p>
+              <img
+                src={expense.receipt_url}
+                alt="Receipt"
+                className="h-48 w-full rounded-xl object-cover"
+              />
+            </div>
+          ) : null}
+        </div>
+
+        <div className="card p-5 space-y-3">
+          <div className="flex items-center justify-between">
+            <h2 className="text-sm font-semibold">Split</h2>
+            <span className="text-xs text-muted">{splits?.length ?? 0} people</span>
+          </div>
+          <div className="space-y-2">
+            {splits?.map((split) => (
+              <div key={split.user_id} className="flex items-center justify-between text-sm">
+                <span>{nameMap.get(split.user_id) ?? "Member"}</span>
+                <span className="font-medium">{formatCurrency(Number(split.amount))}</span>
+              </div>
+            ))}
+          </div>
+          <div className="flex items-center justify-between border-t border-border/60 pt-3 text-sm">
+            <span className="text-muted">Split total</span>
+            <span className="font-semibold">{formatCurrency(totalSplit)}</span>
+          </div>
+        </div>
+
+        <Link href={`/trip/${trip.code}/expenses`} prefetch className="btn btn-ghost w-full pressable">
+          Back to expenses
+        </Link>
+      </FadeIn>
     </div>
   );
 }

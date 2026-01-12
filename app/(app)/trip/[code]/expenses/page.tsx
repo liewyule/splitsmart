@@ -1,6 +1,7 @@
 import { createServerComponentClient } from "../../../../../lib/supabase/server";
 import { formatCurrency, formatDate } from "../../../../../lib/format";
 import Link from "next/link";
+import FadeIn from "../../../../../components/FadeIn";
 
 export default async function ExpensesPage({ params }: { params: { code: string } }) {
   const supabase = createServerComponentClient();
@@ -54,13 +55,14 @@ export default async function ExpensesPage({ params }: { params: { code: string 
 
   return (
     <div className="py-6">
-      <div className="space-y-3">
+      <FadeIn className="space-y-3">
         {expenses?.length ? (
           expenses.map((expense) => (
             <Link
               key={expense.id}
               href={`/trip/${trip.code}/expenses/${expense.id}`}
-              className="card block p-4"
+              prefetch
+              className="card block p-4 pressable pressable-card motion-safe:transition motion-safe:duration-200"
             >
               <div className="flex items-start justify-between">
                 <div>
@@ -77,10 +79,11 @@ export default async function ExpensesPage({ params }: { params: { code: string 
         ) : (
           <div className="card p-6 text-sm text-muted">No expenses yet.</div>
         )}
-      </div>
+      </FadeIn>
       <Link
         href={`/trip/${trip.code}/expenses/new`}
-        className="btn btn-primary mt-6 w-full"
+        prefetch
+        className="btn btn-primary mt-6 w-full pressable"
       >
         Add expense
       </Link>

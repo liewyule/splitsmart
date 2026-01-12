@@ -16,7 +16,7 @@ export default function CreateTripForm() {
         <input name="name" type="text" className="input mt-2" placeholder="Italy 2026" required />
       </label>
       {state?.error ? <p className="text-sm text-rose-600">{state.error}</p> : null}
-      <SubmitButton label="Create trip" />
+      <SubmitButton label="Create trip" pendingLabel="Creating..." />
     </form>
   );
 }

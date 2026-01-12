@@ -7,6 +7,7 @@ import { createExpenseAction, updateExpenseAction } from "../../../../../lib/act
 import { useToast } from "../../../../../components/Toast";
 import { formatCurrency } from "../../../../../lib/format";
 import { createClient } from "../../../../../lib/supabase/client";
+import InlineSpinner from "../../../../../components/InlineSpinner";
 
 export type Member = {
   id: string;
@@ -263,15 +264,20 @@ export default function ExpenseForm({
       {error ? <p className="text-sm text-rose-600">{error}</p> : null}
 
       <button
-        className="btn btn-primary w-full"
+        className="btn btn-primary w-full pressable"
         onClick={handleSubmit}
         disabled={isPending || uploading}
       >
-        {isPending || uploading
-          ? "Please wait..."
-          : mode === "edit"
-            ? "Save changes"
-            : "Add expense"}
+        {isPending || uploading ? (
+          <span className="flex items-center justify-center gap-2">
+            <InlineSpinner />
+            {mode === "edit" ? "Saving..." : "Adding..."}
+          </span>
+        ) : mode === "edit" ? (
+          "Save changes"
+        ) : (
+          "Add expense"
+        )}
       </button>
     </div>
   );

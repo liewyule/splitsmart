@@ -23,7 +23,7 @@ body {
 }
 
 .btn {
-  @apply inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-semibold transition;
+  @apply inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-semibold transition active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 focus-visible:ring-offset-2;
 }
 
 .btn-primary {
@@ -36,6 +36,33 @@ body {
 
 .btn-danger {
   @apply bg-rose-600 text-white hover:bg-rose-700;
+}
+
+.pressable {
+  @apply transition duration-150 ease-out active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 focus-visible:ring-offset-2;
+}
+
+.pressable-card {
+  @apply hover:bg-sky-50 active:bg-sky-100;
+}
+
+.skeleton {
+  @apply animate-pulse rounded-xl bg-border/70;
+}
+
+@keyframes fade-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fade-in-up 200ms ease-out both;
 }
 
 .link {

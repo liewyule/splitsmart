@@ -1,6 +1,7 @@
-﻿import { redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 import { createServerComponentClient } from "../../../lib/supabase/server";
 import TripsClient from "./TripsClient";
+import FadeIn from "../../../components/FadeIn";
 
 export default async function TripsPage() {
   const supabase = createServerComponentClient();
@@ -50,7 +51,9 @@ export default async function TripsPage() {
         <h1 className="text-2xl font-semibold">Trips</h1>
         <p className="mt-1 text-sm text-muted">All trips you have joined.</p>
       </div>
-      <TripsClient trips={trips} />
+      <FadeIn>
+        <TripsClient trips={trips} />
+      </FadeIn>
     </main>
   );
 }

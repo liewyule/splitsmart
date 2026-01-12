@@ -1,6 +1,7 @@
-﻿import { createServerComponentClient } from "../../../../../lib/supabase/server";
+import { createServerComponentClient } from "../../../../../lib/supabase/server";
 import { computeTransfers } from "../../../../../lib/settle";
 import { formatCurrency } from "../../../../../lib/format";
+import FadeIn from "../../../../../components/FadeIn";
 
 export default async function SettlePage({ params }: { params: { code: string } }) {
   const supabase = createServerComponentClient();
@@ -96,31 +97,36 @@ export default async function SettlePage({ params }: { params: { code: string } 
 
   return (
     <div className="py-6">
-      <p className="mt-2 text-sm text-muted">Your settlement actions for this trip.</p>
+      <FadeIn>
+        <p className="mt-2 text-sm text-muted">Your settlement actions for this trip.</p>
 
-      <div className="mt-5 space-y-3">
-        {myTransfers.length ? (
-          myTransfers.map((transfer, index) => (
-            <div key={`${transfer.from}-${transfer.to}-${index}`} className="card p-4">
-              <p className="text-sm">
-                {transfer.from === meName ? (
-                  <>
-                    You pay <span className="font-semibold">{transfer.to}</span>{" "}
-                    {formatCurrency(transfer.amount)}
-                  </>
-                ) : (
-                  <>
-                    You receive from <span className="font-semibold">{transfer.from}</span>{" "}
-                    {formatCurrency(transfer.amount)}
-                  </>
-                )}
-              </p>
-            </div>
-          ))
-        ) : (
-          <div className="card p-6 text-sm text-muted">You are settled up.</div>
-        )}
-      </div>
+        <div className="mt-5 space-y-3">
+          {myTransfers.length ? (
+            myTransfers.map((transfer, index) => (
+              <div
+                key={`${transfer.from}-${transfer.to}-${index}`}
+                className="card p-4 motion-safe:transition motion-safe:duration-200"
+              >
+                <p className="text-sm">
+                  {transfer.from === meName ? (
+                    <>
+                      You pay <span className="font-semibold">{transfer.to}</span>{" "}
+                      {formatCurrency(transfer.amount)}
+                    </>
+                  ) : (
+                    <>
+                      You receive from <span className="font-semibold">{transfer.from}</span>{" "}
+                      {formatCurrency(transfer.amount)}
+                    </>
+                  )}
+                </p>
+              </div>
+            ))
+          ) : (
+            <div className="card p-6 text-sm text-muted">You are settled up.</div>
+          )}
+        </div>
+      </FadeIn>
     </div>
   );
 }

@@ -30,7 +30,7 @@ export default function DeleteExpenseButton({
   };
 
   return (
-    <button className="btn btn-danger w-full" onClick={handleDelete} disabled={isPending}>
+    <button className="btn btn-danger w-full pressable" onClick={handleDelete} disabled={isPending}>
       Delete expense
     </button>
   );

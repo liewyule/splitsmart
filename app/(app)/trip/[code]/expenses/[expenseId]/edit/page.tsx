@@ -2,6 +2,7 @@ import ExpenseForm, { Member } from "../../ExpenseForm";
 import DeleteExpenseButton from "./DeleteExpenseButton";
 import { createServerComponentClient } from "../../../../../../../lib/supabase/server";
 import Link from "next/link";
+import FadeIn from "../../../../../../../components/FadeIn";
 
 export default async function EditExpensePage({
   params
@@ -60,7 +61,7 @@ export default async function EditExpensePage({
     return (
       <div className="py-6 space-y-4">
         <p className="text-sm text-muted">You are not allowed to edit this expense.</p>
-        <Link href={`/trip/${trip.code}/expenses`} className="btn btn-primary w-full">
+        <Link href={`/trip/${trip.code}/expenses`} className="btn btn-primary w-full pressable">
           Back to expenses
         </Link>
       </div>
@@ -85,25 +86,27 @@ export default async function EditExpensePage({
 
   return (
     <div className="py-6">
-      <ExpenseForm
-        tripCode={trip.code}
-        members={members}
-        currentUserId={user.id}
-        mode="edit"
-        initial={{
-          id: expense.id,
-          title: expense.title,
-          amount: Number(expense.amount),
-          receipt_url: expense.receipt_url,
-          splits: splits?.map((split) => ({
-            user_id: split.user_id,
-            amount: Number(split.amount)
-          })) ?? []
-        }}
-      />
-      <div className="mt-4">
-        <DeleteExpenseButton tripCode={trip.code} expenseId={expense.id} />
-      </div>
+      <FadeIn>
+        <ExpenseForm
+          tripCode={trip.code}
+          members={members}
+          currentUserId={user.id}
+          mode="edit"
+          initial={{
+            id: expense.id,
+            title: expense.title,
+            amount: Number(expense.amount),
+            receipt_url: expense.receipt_url,
+            splits: splits?.map((split) => ({
+              user_id: split.user_id,
+              amount: Number(split.amount)
+            })) ?? []
+          }}
+        />
+        <div className="mt-4">
+          <DeleteExpenseButton tripCode={trip.code} expenseId={expense.id} />
+        </div>
+      </FadeIn>
     </div>
   );
 }

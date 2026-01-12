@@ -1,6 +1,7 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { createServerComponentClient } from "../../../../lib/supabase/server";
 import { formatCurrency } from "../../../../lib/format";
+import FadeIn from "../../../../components/FadeIn";
 
 export default async function TripDashboard({ params }: { params: { code: string } }) {
   const supabase = createServerComponentClient();
@@ -51,39 +52,41 @@ export default async function TripDashboard({ params }: { params: { code: string
 
   return (
     <div className="py-6">
-      <div className="card p-5">
-        <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
-          <div>
-            <p className="text-sm text-muted">Trip name</p>
-            <h3 className="mt-2 text-2xl font-semibold">{trip.name}</h3>
-          </div>
-          <div>
-            <p className="text-sm text-muted">Trip code</p>
-            <h1 className="mt-2 text-xl font-semibold tracking-[0.25em]">{trip.code}</h1>
-          </div>
-        </div>
-
-
-        <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
-          <div>
-            <p className="text-muted">Members</p>
-            <p className="mt-1 text-lg font-semibold">{members?.length ?? 0}</p>
-          </div>
-          <div>
-            <p className="text-muted">Total spend</p>
-            <p className="mt-1 text-lg font-semibold">{formatCurrency(totalSpend)}</p>
+      <FadeIn className="space-y-6">
+        <div className="card p-5">
+          <p className="text-sm text-muted">Trip name</p>
+          <h2 className="mt-2 text-xl font-semibold">{trip.name}</h2>
+          <p className="mt-4 text-sm text-muted">Trip code</p>
+          <h3 className="mt-2 text-2xl font-semibold tracking-[0.25em]">{trip.code}</h3>
+          <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
+            <div>
+              <p className="text-muted">Members</p>
+              <p className="mt-1 text-lg font-semibold">{members?.length ?? 0}</p>
+            </div>
+            <div>
+              <p className="text-muted">Total spend</p>
+              <p className="mt-1 text-lg font-semibold">{formatCurrency(totalSpend)}</p>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="mt-6 grid gap-4">
-        <Link href={`/trip/${trip.code}/expenses/new`} className="btn btn-primary w-full">
-          Add expense
-        </Link>
-        <Link href={`/trip/${trip.code}/members`} className="btn btn-ghost w-full">
-          View members
-        </Link>
-      </div>
+        <div className="grid gap-4">
+          <Link
+            href={`/trip/${trip.code}/expenses/new`}
+            prefetch
+            className="btn btn-primary w-full pressable"
+          >
+            Add expense
+          </Link>
+          <Link
+            href={`/trip/${trip.code}/members`}
+            prefetch
+            className="btn btn-ghost w-full pressable"
+          >
+            View members
+          </Link>
+        </div>
+      </FadeIn>
     </div>
   );
 }

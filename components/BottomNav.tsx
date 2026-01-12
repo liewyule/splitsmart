@@ -27,7 +27,8 @@ export default function BottomNav({ code }: { code: string }) {
             <Link
               key={item.label}
               href={href}
-              className={`flex flex-col items-center gap-1 rounded-xl px-3 py-2 text-xs ${
+              prefetch
+              className={`flex flex-col items-center gap-1 rounded-xl px-3 py-2 text-xs pressable ${
                 active ? "text-ink" : "text-muted"
               }`}
             >

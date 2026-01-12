@@ -25,7 +25,7 @@ export default function JoinTripForm() {
           />
         </label>
         {state?.error ? <p className="text-sm text-rose-600">{state.error}</p> : null}
-        <SubmitButton label="Find trip" />
+        <SubmitButton label="Find trip" pendingLabel="Searching..." />
       </form>
 
       {state.trip ? (
@@ -38,7 +38,7 @@ export default function JoinTripForm() {
             {joinState?.error ? (
               <p className="mb-2 text-sm text-rose-600">{joinState.error}</p>
             ) : null}
-            <SubmitButton label="Join trip" />
+            <SubmitButton label="Join trip" pendingLabel="Joining..." />
           </form>
         </div>
       ) : null}

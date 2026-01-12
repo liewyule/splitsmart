@@ -35,14 +35,15 @@ export default function ExpenseDetailActions({
     <div className="flex items-center gap-2">
       <Link
         href={`/trip/${tripCode}/expenses/${expenseId}/edit`}
-        className="btn btn-ghost px-3"
+        prefetch
+        className="btn btn-ghost px-3 pressable"
         aria-label="Edit expense"
       >
         <Pencil className="h-4 w-4" />
       </Link>
       <button
         type="button"
-        className="btn btn-danger px-3"
+        className="btn btn-danger px-3 pressable"
         onClick={handleDelete}
         disabled={isPending}
         aria-label="Delete expense"

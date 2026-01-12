@@ -24,7 +24,8 @@ export default function TripTabs({ code }: { code: string }) {
               <Link
                 key={tab.label}
                 href={href}
-                className={`flex-1 rounded-full px-3 py-2 text-center text-xs font-medium transition ${
+                prefetch
+                className={`flex-1 rounded-full px-3 py-2 text-center text-xs font-medium transition pressable ${
                   active ? "bg-accent text-white shadow-soft" : "text-muted hover:text-ink"
                 }`}
               >

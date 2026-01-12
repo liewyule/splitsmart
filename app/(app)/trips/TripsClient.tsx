@@ -40,7 +40,12 @@ export default function TripsClient({ trips }: { trips: TripCard[] }) {
       {filtered.length ? (
         <div className="space-y-3">
           {filtered.map((trip) => (
-            <Link key={trip.id} href={`/trip/${trip.code}`} className="card block p-6">
+            <Link
+              key={trip.id}
+              href={`/trip/${trip.code}`}
+              prefetch
+              className="card block p-6 pressable pressable-card motion-safe:transition motion-safe:duration-200"
+            >
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-base font-semibold">{trip.name}</p>

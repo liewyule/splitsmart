@@ -1,8 +1,9 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { ChevronRight, Compass, LogOut, Sparkles, Users } from "lucide-react";
 import { redirect } from "next/navigation";
 import { createServerComponentClient } from "../../lib/supabase/server";
 import { signOut } from "../../lib/actions/auth";
+import FadeIn from "../../components/FadeIn";
 
 export default async function HomePage() {
   const supabase = createServerComponentClient();
@@ -19,27 +20,6 @@ export default async function HomePage() {
     .select("username")
     .eq("id", user?.id ?? "")
     .maybeSingle();
-
-  const { data: myTrips } = await supabase
-    .from("trip_members")
-    .select("trip_id, trips(id, name, code, created_at)")
-    .eq("user_id", user?.id ?? "")
-    .order("joined_at", { ascending: false });
-
-  const tripIds = myTrips?.map((row) => row.trip_id) ?? [];
-
-  const { data: memberRows } = await supabase
-    .from("trip_members")
-    .select("trip_id, user_id, profiles(username)")
-    .in("trip_id", tripIds.length ? tripIds : ["00000000-0000-0000-0000-000000000000"]);
-
-  const membersByTrip = new Map<string, string[]>();
-  memberRows?.forEach((row) => {
-    const username = (row.profiles as any)?.username ?? "Member";
-    const list = membersByTrip.get(row.trip_id) ?? [];
-    list.push(username);
-    membersByTrip.set(row.trip_id, list);
-  });
 
   return (
     <main className="flex min-h-screen flex-col pb-6">
@@ -58,7 +38,7 @@ export default async function HomePage() {
             <form action={signOut}>
               <button
                 type="submit"
-                className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-ink hover:bg-accentSoft"
+                className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-ink hover:bg-accentSoft pressable"
               >
                 <LogOut className="h-4 w-4" />
                 Sign out
@@ -68,10 +48,11 @@ export default async function HomePage() {
         </details>
       </div>
 
-      <div className="mt-6 space-y-4">
+      <FadeIn className="mt-6 space-y-4">
         <Link
           href="/trip/create"
-          className="card block rounded-3xl border border-border/70 p-6 shadow-card transition hover:-translate-y-1 hover:shadow-soft"
+          prefetch
+          className="card block rounded-3xl border border-border/70 p-6 shadow-card transition hover:-translate-y-1 hover:shadow-soft pressable pressable-card"
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -90,7 +71,8 @@ export default async function HomePage() {
         </Link>
         <Link
           href="/trip/join"
-          className="card block rounded-3xl border border-border/70 p-6 shadow-card transition hover:-translate-y-1 hover:shadow-soft"
+          prefetch
+          className="card block rounded-3xl border border-border/70 p-6 shadow-card transition hover:-translate-y-1 hover:shadow-soft pressable pressable-card"
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -107,8 +89,7 @@ export default async function HomePage() {
             <ChevronRight className="h-5 w-5 text-muted" />
           </div>
         </Link>
-      </div>
-
+      </FadeIn>
     </main>
   );
 }

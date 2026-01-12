@@ -1,5 +1,6 @@
-﻿import ExpenseForm, { Member } from "../ExpenseForm";
+import ExpenseForm, { Member } from "../ExpenseForm";
 import { createServerComponentClient } from "../../../../../../lib/supabase/server";
+import FadeIn from "../../../../../../components/FadeIn";
 
 export default async function NewExpensePage({ params }: { params: { code: string } }) {
   const supabase = createServerComponentClient();
@@ -49,7 +50,9 @@ export default async function NewExpensePage({ params }: { params: { code: strin
 
   return (
     <div className="py-6">
-      <ExpenseForm tripCode={trip.code} members={members} currentUserId={user.id} />
+      <FadeIn>
+        <ExpenseForm tripCode={trip.code} members={members} currentUserId={user.id} />
+      </FadeIn>
     </div>
   );
 }
