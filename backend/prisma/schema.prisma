@@ -1,0 +1,65 @@
+﻿// Prisma schema for Travel Expense Splitter
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String            @id @default(cuid())
+  username  String            @unique
+  createdAt DateTime          @default(now())
+  trips     TripParticipant[]
+  paidExpenses Expense[]      @relation("ExpensePayer")
+  shares    ExpenseShare[]
+}
+
+model Trip {
+  id           String            @id @default(cuid())
+  name         String
+  createdAt    DateTime          @default(now())
+  participants TripParticipant[]
+  expenses     Expense[]
+}
+
+model TripParticipant {
+  id        String   @id @default(cuid())
+  tripId    String
+  userId    String
+  createdAt DateTime @default(now())
+
+  trip Trip @relation(fields: [tripId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([tripId, userId])
+}
+
+model Expense {
+  id          String         @id @default(cuid())
+  tripId      String
+  description String
+  amountCents Int
+  payerUserId String
+  createdAt   DateTime       @default(now())
+
+  trip   Trip         @relation(fields: [tripId], references: [id])
+  payer  User         @relation("ExpensePayer", fields: [payerUserId], references: [id])
+  shares ExpenseShare[]
+}
+
+model ExpenseShare {
+  id         String   @id @default(cuid())
+  expenseId  String
+  userId     String
+  shareCents Int
+  createdAt  DateTime @default(now())
+
+  expense Expense @relation(fields: [expenseId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
+
+  @@unique([expenseId, userId])
+}

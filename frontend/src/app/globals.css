@@ -1,0 +1,19 @@
+﻿@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  @apply bg-white text-ink antialiased;
+}
+
+input, select, textarea {
+  @apply outline-none;
+}
+
+::selection {
+  background: rgba(15, 23, 42, 0.08);
+}

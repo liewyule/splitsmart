@@ -15,6 +15,7 @@ type ExpensePayload = {
   amount: number;
   payerId: string;
   splits: SplitInput[];
+  receiptUrl?: string | null;
 };
 
 function round2(value: number) {
@@ -43,7 +44,7 @@ async function assertMembership(
 }
 
 export async function createExpenseAction(payload: ExpensePayload) {
-  const { tripCode, title, amount, payerId, splits } = payload;
+  const { tripCode, title, amount, payerId, splits, receiptUrl } = payload;
   if (!title || amount <= 0) {
     return { error: "Title and amount are required." };
   }
@@ -85,7 +86,8 @@ export async function createExpenseAction(payload: ExpensePayload) {
       title,
       amount: round2(amount),
       payer_id: payerId,
-      created_by: user.id
+      created_by: user.id,
+      receipt_url: receiptUrl ?? null
     })
     .select("id")
     .single();
@@ -110,7 +112,7 @@ export async function createExpenseAction(payload: ExpensePayload) {
 }
 
 export async function updateExpenseAction(payload: ExpensePayload) {
-  const { tripCode, expenseId, title, amount, payerId, splits } = payload;
+  const { tripCode, expenseId, title, amount, payerId, splits, receiptUrl } = payload;
   if (!expenseId) return { error: "Missing expense." };
   if (!title || amount <= 0) return { error: "Title and amount are required." };
   if (sumSplits(splits) !== round2(amount)) return { error: "Splits must equal total amount." };
@@ -146,7 +148,8 @@ export async function updateExpenseAction(payload: ExpensePayload) {
     .update({
       title,
       amount: round2(amount),
-      payer_id: payerId
+      payer_id: payerId,
+      receipt_url: receiptUrl ?? null
     })
     .eq("id", expenseId);
 
