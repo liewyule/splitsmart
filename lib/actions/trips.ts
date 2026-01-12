@@ -118,12 +118,11 @@ export async function joinTripAction(_prevState: any, formData: FormData) {
     return { error: "Trip not found." };
   }
 
-  const { error } = await supabase.from("trip_members").insert(
-    { trip_id: trip.id, user_id: user.id },
-    { onConflict: "trip_id,user_id", ignoreDuplicates: true }
-  );
+  const { error } = await supabase
+    .from("trip_members")
+    .insert({ trip_id: trip.id, user_id: user.id });
 
-  if (error) {
+  if (error && error.code !== "23505") {
     return { error: error.message };
   }
 
