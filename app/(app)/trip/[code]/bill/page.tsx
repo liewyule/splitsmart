@@ -112,7 +112,9 @@ export default async function BillPage({ params }: { params: { code: string } })
                 key={item.expense.id}
                 href={`/trip/${trip.code}/expenses/${item.expense.id}`}
                 prefetch
-                className="card block p-4 pressable pressable-card motion-safe:transition motion-safe:duration-200"
+                className={`card block p-4 pressable pressable-card motion-safe:transition motion-safe:duration-200 ${
+                  item.expense.payer_id === user.id ? "border-emerald-400 bg-emerald-200" : ""
+                }`}
               >
                 <div className="flex items-center justify-between">
                   <div>
@@ -122,13 +124,7 @@ export default async function BillPage({ params }: { params: { code: string } })
                   <p className="text-sm font-semibold">{formatCurrency(item.splitAmount)}</p>
                 </div>
                 <div className="mt-2 flex items-center gap-2 text-sm text-muted">
-                  {item.expense.payer_id === user.id ? (
-                    <span className="rounded-full bg-emerald-50 px-2 py-1 text-emerald-600">
-                      Paid
-                    </span>
-                  ) : null}
                   <span>
-                    {`Cost ${formatCurrency(item.splitAmount)} · `}
                     {item.expense.payer_id === user.id
                       ? `You paid ${formatCurrency(item.expense.amount)}`
                       : `${nameMap.get(item.expense.payer_id) ?? "Member"} paid ${formatCurrency(item.expense.amount)}`}
