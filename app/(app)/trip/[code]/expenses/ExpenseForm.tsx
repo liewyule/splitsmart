@@ -177,7 +177,7 @@ export default function ExpenseForm({
         </div>
         <div className="space-y-2">
           <p className="text-sm font-medium">Receipt photo</p>
-          <label className="flex items-center justify-between rounded-xl border border-border/70 bg-white px-4 py-3 text-sm">
+          <label className="flex min-h-[44px] cursor-pointer items-center justify-between rounded-xl border border-border bg-white px-4 py-3 text-sm shadow-sm transition hover:bg-slate-50">
             <span className="flex items-center gap-2 text-muted">
               <ImagePlus className="h-4 w-4 text-accent" />
               {uploading ? "Uploading..." : "Add receipt photo"}
@@ -217,14 +217,14 @@ export default function ExpenseForm({
           <div className="flex gap-2">
             <button
               type="button"
-              className={`btn ${splitMode === "equal" ? "btn-primary" : "btn-ghost"} px-4 py-2 text-xs`}
+              className={`btn pressable ${splitMode === "equal" ? "btn-primary" : "btn-ghost"}`}
               onClick={() => setSplitMode("equal")}
             >
               Equal
             </button>
             <button
               type="button"
-              className={`btn ${splitMode === "custom" ? "btn-primary" : "btn-ghost"} px-4 py-2 text-xs`}
+              className={`btn pressable ${splitMode === "custom" ? "btn-primary" : "btn-ghost"}`}
               onClick={() => setSplitMode("custom")}
             >
               Custom

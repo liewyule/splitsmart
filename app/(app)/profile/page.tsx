@@ -27,7 +27,7 @@ export default async function ProfilePage() {
           <User className="h-6 w-6" />
         </div>
         <div>
-          <h1 className="text-2xl font-semibold">Profile</h1>
+          <h1 className="text-xl font-semibold">Profile</h1>
           <p className="mt-1 text-sm text-muted">Manage your SplitSmart account.</p>
         </div>
       </div>

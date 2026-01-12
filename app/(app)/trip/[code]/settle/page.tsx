@@ -17,9 +17,7 @@ export default async function SettlePage({ params }: { params: { code: string } 
 
   if (!trip || !user) {
     return (
-      <div className="py-6">
-        <p className="text-sm text-muted">Trip not found.</p>
-      </div>
+      <div className="empty-state mt-8">Trip not found.</div>
     );
   }
 
@@ -32,9 +30,7 @@ export default async function SettlePage({ params }: { params: { code: string } 
 
   if (!membership) {
     return (
-      <div className="py-6">
-        <p className="text-sm text-muted">You are not a member of this trip.</p>
-      </div>
+      <div className="empty-state mt-8">You are not a member of this trip.</div>
     );
   }
 
@@ -123,7 +119,7 @@ export default async function SettlePage({ params }: { params: { code: string } 
               </div>
             ))
           ) : (
-            <div className="card p-6 text-sm text-muted">You are settled up.</div>
+            <div className="empty-state">You are settled up.</div>
           )}
         </div>
       </FadeIn>

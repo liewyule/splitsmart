@@ -14,7 +14,7 @@ export default function ExpensesLoading() {
           </div>
         ))}
       </div>
-      <div className="skeleton mt-6 h-12 w-full rounded-full" />
+      <div className="skeleton mt-6 h-12 w-full rounded-xl" />
     </div>
   );
 }

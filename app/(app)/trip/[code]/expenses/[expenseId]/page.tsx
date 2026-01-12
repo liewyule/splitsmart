@@ -22,9 +22,7 @@ export default async function ExpenseDetailsPage({
 
   if (!trip || !user) {
     return (
-      <div className="py-6">
-        <p className="text-sm text-muted">Trip not found.</p>
-      </div>
+      <div className="empty-state mt-8">Trip not found.</div>
     );
   }
 
@@ -37,9 +35,7 @@ export default async function ExpenseDetailsPage({
 
   if (!membership) {
     return (
-      <div className="py-6">
-        <p className="text-sm text-muted">You are not a member of this trip.</p>
-      </div>
+      <div className="empty-state mt-8">You are not a member of this trip.</div>
     );
   }
 
@@ -52,9 +48,7 @@ export default async function ExpenseDetailsPage({
 
   if (!expense) {
     return (
-      <div className="py-6">
-        <p className="text-sm text-muted">Expense not found.</p>
-      </div>
+      <div className="empty-state mt-8">Expense not found.</div>
     );
   }
 
@@ -82,9 +76,9 @@ export default async function ExpenseDetailsPage({
         <div className="card p-5 space-y-4">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <p className="text-xs text-muted">{formatDate(expense.created_at)}</p>
+              <p className="text-sm text-muted">{formatDate(expense.created_at)}</p>
               <h1 className="mt-1 text-lg font-semibold">{expense.title}</h1>
-              <p className="mt-1 text-xs text-muted">{trip.name}</p>
+              <p className="mt-1 text-sm text-muted">{trip.name}</p>
             </div>
             <div className="flex flex-col items-end gap-2">
               <p className="text-lg font-semibold">{formatCurrency(Number(expense.amount))}</p>
@@ -124,7 +118,7 @@ export default async function ExpenseDetailsPage({
         <div className="card p-5 space-y-3">
           <div className="flex items-center justify-between">
             <h2 className="text-sm font-semibold">Split</h2>
-            <span className="text-xs text-muted">{splits?.length ?? 0} people</span>
+            <span className="text-sm text-muted">{splits?.length ?? 0} people</span>
           </div>
           <div className="space-y-2">
             {splits?.map((split) => (

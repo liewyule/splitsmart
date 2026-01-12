@@ -7,16 +7,16 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        ink: "#111111",
-        muted: "#6b7280",
+        ink: "#0f172a",
+        muted: "#64748b",
         card: "#ffffff",
-        border: "#e5e7eb",
+        border: "#e2e8f0",
         accent: "#0284c7",
         accentSoft: "#e0f2fe"
       },
       boxShadow: {
-        card: "0 10px 25px rgba(2,132,199,0.12)",
-        soft: "0 4px 12px rgba(0,0,0,0.08)"
+        card: "0 8px 20px rgba(15,23,42,0.08)",
+        soft: "0 6px 16px rgba(15,23,42,0.06)"
       },
       borderRadius: {
         xl: "20px"

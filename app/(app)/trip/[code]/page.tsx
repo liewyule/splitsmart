@@ -17,9 +17,7 @@ export default async function TripDashboard({ params }: { params: { code: string
 
   if (!trip) {
     return (
-      <div className="py-10">
-        <p className="text-sm text-muted">This trip code does not exist.</p>
-      </div>
+      <div className="empty-state mt-8">This trip code does not exist.</div>
     );
   }
 
@@ -32,9 +30,7 @@ export default async function TripDashboard({ params }: { params: { code: string
 
   if (!membership) {
     return (
-      <div className="py-10">
-        <p className="text-sm text-muted">You are not a member of this trip.</p>
-      </div>
+      <div className="empty-state mt-8">You are not a member of this trip.</div>
     );
   }
 
@@ -55,9 +51,9 @@ export default async function TripDashboard({ params }: { params: { code: string
       <FadeIn className="space-y-6">
         <div className="card p-5">
           <p className="text-sm text-muted">Trip name</p>
-          <h2 className="mt-2 text-xl font-semibold">{trip.name}</h2>
+          <h2 className="mt-2 text-lg font-semibold">{trip.name}</h2>
           <p className="mt-4 text-sm text-muted">Trip code</p>
-          <h3 className="mt-2 text-2xl font-semibold tracking-[0.25em]">{trip.code}</h3>
+          <h3 className="mt-2 text-xl font-semibold tracking-[0.25em]">{trip.code}</h3>
           <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
             <div>
               <p className="text-muted">Members</p>

@@ -14,9 +14,7 @@ export default async function MembersPage({ params }: { params: { code: string }
 
   if (!trip) {
     return (
-      <div className="py-6">
-        <p className="text-sm text-muted">Trip not found.</p>
-      </div>
+      <div className="empty-state mt-8">Trip not found.</div>
     );
   }
 
@@ -29,9 +27,7 @@ export default async function MembersPage({ params }: { params: { code: string }
 
   if (!membership) {
     return (
-      <div className="py-6">
-        <p className="text-sm text-muted">You are not a member of this trip.</p>
-      </div>
+      <div className="empty-state mt-8">You are not a member of this trip.</div>
     );
   }
 
@@ -44,7 +40,7 @@ export default async function MembersPage({ params }: { params: { code: string }
     <div className="py-6">
       <div className="space-y-3">
         {members?.map((member) => (
-          <div key={member.id} className="card p-4 text-sm">
+          <div key={member.id} className="card p-4 text-sm font-medium">
             {(member.profiles as any)?.username ?? "Member"}
           </div>
         ))}

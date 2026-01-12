@@ -29,7 +29,7 @@ export default function JoinTripForm() {
       </form>
 
       {state.trip ? (
-        <div className="card p-6">
+        <div className="card p-5">
           <p className="text-sm text-muted">Found trip</p>
           <h3 className="mt-2 text-lg font-semibold">{state.trip.name}</h3>
           <p className="mt-1 text-sm text-muted">Code {state.trip.code}</p>

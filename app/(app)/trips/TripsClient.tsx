@@ -2,8 +2,6 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { Search } from "lucide-react";
-
 type TripCard = {
   id: string;
   name: string;
@@ -27,9 +25,8 @@ export default function TripsClient({ trips }: { trips: TripCard[] }) {
       <label className="block">
         <span className="sr-only">Search trips</span>
         <div className="relative">
-         
           <input
-            className="input pl-10"
+            className="input"
             placeholder="Search by trip name or code"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
@@ -44,14 +41,14 @@ export default function TripsClient({ trips }: { trips: TripCard[] }) {
               key={trip.id}
               href={`/trip/${trip.code}`}
               prefetch
-              className="card block p-6 pressable pressable-card motion-safe:transition motion-safe:duration-200"
+              className="card block p-5 pressable pressable-card motion-safe:transition motion-safe:duration-200"
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-base font-semibold">{trip.name}</p>
-                  <p className="mt-1 text-xs text-muted">Code {trip.code}</p>
+                  <p className="text-lg font-semibold">{trip.name}</p>
+                  <p className="mt-1 text-sm text-muted">Code {trip.code}</p>
                 </div>
-                <span className="rounded-full bg-accentSoft px-3 py-1 text-xs text-ink">
+                <span className="rounded-full bg-accentSoft px-3 py-1 text-sm font-medium text-accent">
                   {trip.members.length} members
                 </span>
               </div>
@@ -59,20 +56,20 @@ export default function TripsClient({ trips }: { trips: TripCard[] }) {
                 {trip.members.slice(0, 4).map((member) => (
                   <span
                     key={`${trip.id}-${member}`}
-                    className="rounded-full border border-border/60 bg-white px-3 py-1 text-xs text-muted"
+                    className="rounded-full border border-border/70 bg-white px-3 py-1 text-sm text-muted"
                   >
                     {member}
                   </span>
                 ))}
                 {trip.members.length > 4 ? (
-                  <span className="text-xs text-muted">+{trip.members.length - 4} more</span>
+                  <span className="text-sm text-muted">+{trip.members.length - 4} more</span>
                 ) : null}
               </div>
             </Link>
           ))}
         </div>
       ) : (
-        <div className="card p-6 text-sm text-muted">No trips match your search.</div>
+        <div className="empty-state">No trips match your search.</div>
       )}
     </div>
   );

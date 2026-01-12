@@ -14,8 +14,8 @@ export default function GlobalNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-50 border-t border-border/60 bg-white/90 backdrop-blur">
-      <div className="mx-auto flex max-w-[420px] items-center justify-between px-6 py-3">
+    <nav className="bottom-nav">
+      <div className="mx-auto flex max-w-[420px] items-center justify-between px-4 py-3">
         {items.map((item) => {
           const Icon = item.icon;
           const active = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
@@ -24,8 +24,8 @@ export default function GlobalNav() {
               key={item.label}
               href={item.href}
               prefetch
-              className={`flex flex-col items-center gap-1 rounded-xl px-3 py-2 text-xs pressable ${
-                active ? "text-accent" : "text-muted"
+              className={`flex flex-col items-center gap-1 rounded-xl px-6 py-5 text-xs font-medium transition pressable ${
+                active ? "text-accent" : "text-muted hover:text-ink"
               }`}
             >
               <Icon className="h-5 w-5" />

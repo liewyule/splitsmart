@@ -15,7 +15,7 @@ export default function BottomNav({ code }: { code: string }) {
   const pathname = usePathname();
   return (
     <nav className="bottom-nav">
-      <div className="mx-auto flex max-w-[420px] items-center justify-between px-6 py-3">
+      <div className="mx-auto flex max-w-[420px] items-center justify-between px-4 py-3">
         {items.map((item) => {
           const href = `/trip/${code}${item.href}`;
           const active =
@@ -28,8 +28,8 @@ export default function BottomNav({ code }: { code: string }) {
               key={item.label}
               href={href}
               prefetch
-              className={`flex flex-col items-center gap-1 rounded-xl px-3 py-2 text-xs pressable ${
-                active ? "text-ink" : "text-muted"
+              className={`flex flex-col items-center gap-1 rounded-xl px-6 py-5 text-xs font-medium transition pressable ${
+                active ? "text-accent" : "text-muted hover:text-ink"
               }`}
             >
               <Icon className="h-5 w-5" />

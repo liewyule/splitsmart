@@ -23,7 +23,7 @@ export default function SignupForm() {
         <input name="password" type="password" className="input mt-2" required />
       </label>
       {state?.error ? <p className="text-sm text-rose-600">{state.error}</p> : null}
-      <button type="submit" className="btn btn-primary w-full">
+      <button type="submit" className="btn btn-primary w-full pressable">
         Create account
       </button>
     </form>

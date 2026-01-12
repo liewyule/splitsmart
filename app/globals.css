@@ -7,48 +7,56 @@
 }
 
 body {
-  @apply bg-white text-ink antialiased;
+  @apply bg-slate-50 text-ink antialiased;
   font-family: "DM Sans", "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
 }
 
 .app-shell {
-  @apply min-h-screen bg-gradient-to-b from-white via-white to-accentSoft/60;
+  @apply min-h-screen bg-slate-50;
+}
+
+.page-container {
+  @apply mx-auto w-full max-w-[420px] px-4;
 }
 
 .card {
-  @apply rounded-xl bg-card shadow-card border border-border/60;
+  @apply rounded-xl bg-card border border-border/70 shadow-sm;
 }
 
 .input {
-  @apply w-full rounded-xl border border-border/80 bg-white px-4 py-3 text-sm text-ink shadow-sm focus:border-ink focus:outline-none focus:ring-2 focus:ring-ink/10;
+  @apply w-full min-h-[44px] rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink shadow-sm placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition;
 }
 
 .btn {
-  @apply inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-semibold transition active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 focus-visible:ring-offset-2;
+  @apply inline-flex min-h-[44px] items-center justify-center rounded-xl px-5 py-3 text-sm font-semibold transition active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100;
 }
 
 .btn-primary {
-  @apply bg-accent text-white hover:bg-sky-600;
+  @apply bg-accent text-white shadow-sm hover:bg-sky-700 active:bg-sky-700;
 }
 
 .btn-ghost {
-  @apply bg-accentSoft text-ink hover:bg-sky-100;
+  @apply border border-border bg-slate-100 text-ink shadow-sm hover:bg-slate-200 active:bg-slate-200;
 }
 
 .btn-danger {
-  @apply bg-rose-600 text-white hover:bg-rose-700;
+  @apply bg-rose-600 text-white shadow-sm hover:bg-rose-700 active:bg-rose-700;
 }
 
 .pressable {
-  @apply transition duration-150 ease-out active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 focus-visible:ring-offset-2;
+  @apply transition duration-150 ease-out active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2;
 }
 
 .pressable-card {
-  @apply hover:bg-sky-50 active:bg-sky-100;
+  @apply hover:border-sky-200 hover:shadow-sm active:bg-slate-50;
 }
 
 .skeleton {
-  @apply animate-pulse rounded-xl bg-border/70;
+  @apply animate-pulse rounded-xl bg-slate-200/70;
+}
+
+.empty-state {
+  @apply card p-6 text-sm text-muted text-center;
 }
 
 @keyframes fade-in-up {
@@ -67,9 +75,9 @@ body {
 }
 
 .link {
-  @apply text-ink underline-offset-4 hover:underline;
+  @apply text-accent font-medium underline-offset-4 hover:underline;
 }
 
 .bottom-nav {
-  @apply fixed inset-x-0 bottom-0 z-50 border-t border-border/60 bg-white/90 backdrop-blur;
+  @apply fixed inset-x-0 bottom-0 z-50 border-t border-border/70 bg-white/95 backdrop-blur shadow-[0_-8px_20px_rgba(15,23,42,0.08)];
 }

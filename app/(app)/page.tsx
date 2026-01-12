@@ -28,7 +28,7 @@ export default async function HomePage() {
       <div className="pt-6">
         <div>
           <p className="text-sm text-muted">Welcome</p>
-          <h1 className="text-2xl font-semibold">{profile?.username ?? "Traveler"}</h1>
+          <h1 className="text-xl font-semibold">{profile?.username ?? "Traveler"}</h1>
         </div>
       </div>
 
@@ -36,16 +36,16 @@ export default async function HomePage() {
         <Link
           href="/trip/create"
           prefetch
-          className="card block rounded-3xl border border-border/70 p-6 shadow-card transition hover:-translate-y-1 hover:shadow-soft pressable pressable-card"
+          className="card block p-5 pressable pressable-card"
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="rounded-2xl bg-accentSoft p-4 text-accent">
+              <div className="rounded-xl bg-accentSoft p-3 text-accent">
                 <Sparkles className="h-6 w-6" />
               </div>
               <div>
-                <h2 className="text-xl font-semibold">Create Trip</h2>
-                <p className="mt-1 text-base text-muted">
+                <h2 className="text-lg font-semibold">Create Trip</h2>
+                <p className="mt-1 text-sm text-muted">
                   Start a new trip and split expenses with friends.
                 </p>
               </div>
@@ -56,16 +56,16 @@ export default async function HomePage() {
         <Link
           href="/trip/join"
           prefetch
-          className="card block rounded-3xl border border-border/70 p-6 shadow-card transition hover:-translate-y-1 hover:shadow-soft pressable pressable-card"
+          className="card block p-5 pressable pressable-card"
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="rounded-2xl bg-accentSoft p-4 text-accent">
+              <div className="rounded-xl bg-accentSoft p-3 text-accent">
                 <Compass className="h-6 w-6" />
               </div>
               <div>
-                <h2 className="text-xl font-semibold">Join Trip</h2>
-                <p className="mt-1 text-base text-muted">
+                <h2 className="text-lg font-semibold">Join Trip</h2>
+                <p className="mt-1 text-sm text-muted">
                   Join an existing trip using a 6-digit code.
                 </p>
               </div>

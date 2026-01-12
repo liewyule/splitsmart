@@ -16,9 +16,7 @@ export default async function NewExpensePage({ params }: { params: { code: strin
 
   if (!trip) {
     return (
-      <div className="py-6">
-        <p className="text-sm text-muted">Trip not found.</p>
-      </div>
+      <div className="empty-state mt-8">Trip not found.</div>
     );
   }
 
@@ -31,9 +29,7 @@ export default async function NewExpensePage({ params }: { params: { code: strin
 
   if (!membership || !user) {
     return (
-      <div className="py-6">
-        <p className="text-sm text-muted">You are not a member of this trip.</p>
-      </div>
+      <div className="empty-state mt-8">You are not a member of this trip.</div>
     );
   }
 

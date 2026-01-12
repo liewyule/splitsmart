@@ -27,7 +27,7 @@ export default function BillLoading() {
               <div className="skeleton h-4 w-14" />
             </div>
             <div className="mt-2 flex items-center gap-2">
-              <div className="skeleton h-5 w-12 rounded-full" />
+              <div className="skeleton h-5 w-12 rounded-xl" />
               <div className="skeleton h-3 w-48" />
             </div>
           </div>

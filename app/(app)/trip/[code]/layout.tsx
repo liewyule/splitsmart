@@ -10,7 +10,7 @@ export default function TripLayout({
   return (
     <div>
       <TripTabs code={params.code} />
-      <div className="px-1 pb-6">{children}</div>
+      <div className="px-0 pb-6">{children}</div>
     </div>
   );
 }

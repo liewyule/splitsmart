@@ -7,7 +7,7 @@ export default function CreateTripPage() {
     <main className="min-h-screen pb-6">
       <TripHeader title="Create Trip" backHref="/" />
       <FadeIn>
-        <div className="card p-6">
+        <div className="card p-5">
           <CreateTripForm />
         </div>
       </FadeIn>

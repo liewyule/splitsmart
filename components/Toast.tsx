@@ -36,7 +36,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
         {toasts.map((toast) => (
           <div
             key={toast.id}
-            className={`rounded-xl px-4 py-3 text-sm shadow-soft border border-border/60 bg-white ${
+            className={`rounded-xl border border-border/70 bg-white px-4 py-3 text-sm shadow-soft ${
               toast.variant === "success"
                 ? "text-emerald-700"
                 : toast.variant === "error"

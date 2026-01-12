@@ -23,8 +23,8 @@ export default function TripDashboardLoading() {
       </div>
 
       <div className="mt-6 grid gap-4">
-        <div className="skeleton h-12 w-full rounded-full" />
-        <div className="skeleton h-12 w-full rounded-full" />
+        <div className="skeleton h-12 w-full rounded-xl" />
+        <div className="skeleton h-12 w-full rounded-xl" />
       </div>
     </div>
   );

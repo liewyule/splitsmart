@@ -17,9 +17,7 @@ export default async function BillPage({ params }: { params: { code: string } })
 
   if (!trip || !user) {
     return (
-      <div className="py-6">
-        <p className="text-sm text-muted">Trip not found.</p>
-      </div>
+      <div className="empty-state mt-8">Trip not found.</div>
     );
   }
 
@@ -32,9 +30,7 @@ export default async function BillPage({ params }: { params: { code: string } })
 
   if (!membership) {
     return (
-      <div className="py-6">
-        <p className="text-sm text-muted">You are not a member of this trip.</p>
-      </div>
+      <div className="empty-state mt-8">You are not a member of this trip.</div>
     );
   }
 
@@ -102,11 +98,11 @@ export default async function BillPage({ params }: { params: { code: string } })
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="font-medium">{item.expense.title}</p>
-                    <p className="text-xs text-muted">{formatDate(item.expense.created_at)}</p>
+                    <p className="text-sm text-muted">{formatDate(item.expense.created_at)}</p>
                   </div>
                   <p className="text-sm font-semibold">{formatCurrency(item.splitAmount)}</p>
                 </div>
-                <div className="mt-2 flex items-center gap-2 text-xs text-muted">
+                <div className="mt-2 flex items-center gap-2 text-sm text-muted">
                   {item.expense.payer_id === user.id ? (
                     <span className="rounded-full bg-emerald-50 px-2 py-1 text-emerald-600">
                       Paid
@@ -120,10 +116,10 @@ export default async function BillPage({ params }: { params: { code: string } })
                   </span>
                 </div>
               </Link>
-            ))
-          ) : (
-            <div className="card p-6 text-sm text-muted">No bill items yet.</div>
-          )}
+          ))
+        ) : (
+          <div className="empty-state">No bill items yet.</div>
+        )}
         </div>
       </FadeIn>
     </div>

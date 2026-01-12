@@ -9,7 +9,7 @@ export default function TripHeader({ title, backHref }: { title: string; backHre
           href={backHref}
           aria-label="Back"
           prefetch
-          className="rounded-full p-2 hover:bg-accentSoft pressable"
+          className="rounded-xl border border-border/70 bg-white p-2 shadow-sm hover:bg-slate-50 pressable"
         >
           <ChevronLeft className="h-5 w-5" />
         </Link>

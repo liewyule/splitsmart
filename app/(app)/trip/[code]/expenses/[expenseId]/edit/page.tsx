@@ -22,9 +22,7 @@ export default async function EditExpensePage({
 
   if (!trip) {
     return (
-      <div className="py-6">
-        <p className="text-sm text-muted">Trip not found.</p>
-      </div>
+      <div className="empty-state mt-8">Trip not found.</div>
     );
   }
 
@@ -37,9 +35,7 @@ export default async function EditExpensePage({
 
   if (!membership || !user) {
     return (
-      <div className="py-6">
-        <p className="text-sm text-muted">You are not a member of this trip.</p>
-      </div>
+      <div className="empty-state mt-8">You are not a member of this trip.</div>
     );
   }
 
@@ -51,16 +47,14 @@ export default async function EditExpensePage({
 
   if (!expense) {
     return (
-      <div className="py-6">
-        <p className="text-sm text-muted">Expense not found.</p>
-      </div>
+      <div className="empty-state mt-8">Expense not found.</div>
     );
   }
 
   if (expense.created_by !== user.id) {
     return (
       <div className="py-6 space-y-4">
-        <p className="text-sm text-muted">You are not allowed to edit this expense.</p>
+        <div className="empty-state">You are not allowed to edit this expense.</div>
         <Link href={`/trip/${trip.code}/expenses`} className="btn btn-primary w-full pressable">
           Back to expenses
         </Link>
