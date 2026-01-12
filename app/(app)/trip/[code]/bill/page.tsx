@@ -51,6 +51,15 @@ export default async function BillPage({ params }: { params: { code: string } })
     .eq("user_id", user.id)
     .eq("expenses.trip_id", trip.id);
 
+  const { data: members } = await supabase
+    .from("trip_members")
+    .select("user_id, profiles(username)")
+    .eq("trip_id", trip.id);
+
+  const nameMap = new Map(
+    members?.map((member) => [member.user_id, (member.profiles as any)?.username ?? "Member"]) ?? []
+  );
+
   const items =
     lineItems?.filter((item) => (item.expenses as any)?.id)?.map((item) => ({
       splitAmount: Number(item.amount),
@@ -84,7 +93,7 @@ export default async function BillPage({ params }: { params: { code: string } })
           items.map((item) => (
             <Link
               key={item.expense.id}
-              href={`/trip/${trip.code}/expenses/${item.expense.id}/edit`}
+              href={`/trip/${trip.code}/expenses/${item.expense.id}`}
               className="card block p-4"
             >
               <div className="flex items-center justify-between">
@@ -96,16 +105,16 @@ export default async function BillPage({ params }: { params: { code: string } })
               </div>
               <div className="mt-2 flex items-center gap-2 text-xs text-muted">
                 {item.expense.payer_id === user.id ? (
-                  <span className="rounded-full bg-emerald-50 px-2 py-1 text-emerald-600">You paid</span>
-                ) : (
-                  <span className="rounded-full bg-amber-50 px-2 py-1 text-amber-600">You owe</span>
-                )}
+                  <span className="rounded-full bg-emerald-50 px-2 py-1 text-emerald-600">
+                    You Paid
+                  </span>
+                ) : null}
                 <span>
+                  {`Cost ${formatCurrency(item.splitAmount)} · `}
                   {item.expense.payer_id === user.id
-                    ? `You paid ${formatCurrency(item.splitAmount)}`
-                    : `You owe ${formatCurrency(item.splitAmount)}`}
+                    ? `You paid ${formatCurrency(item.expense.amount)}`
+                    : `${nameMap.get(item.expense.payer_id) ?? "Member"} paid ${formatCurrency(item.expense.amount)}`}
                 </span>
-                <span>{formatCurrency(item.expense.amount)} total</span>
               </div>
             </Link>
           ))

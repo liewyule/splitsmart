@@ -1,6 +1,7 @@
-﻿import ExpenseForm, { Member } from "../../ExpenseForm";
+import ExpenseForm, { Member } from "../../ExpenseForm";
 import DeleteExpenseButton from "./DeleteExpenseButton";
 import { createServerComponentClient } from "../../../../../../../lib/supabase/server";
+import Link from "next/link";
 
 export default async function EditExpensePage({
   params
@@ -43,7 +44,7 @@ export default async function EditExpensePage({
 
   const { data: expense } = await supabase
     .from("expenses")
-    .select("id, title, amount, payer_id, receipt_url")
+    .select("id, title, amount, payer_id, created_by, receipt_url")
     .eq("id", params.expenseId)
     .maybeSingle();
 
@@ -51,6 +52,17 @@ export default async function EditExpensePage({
     return (
       <div className="py-6">
         <p className="text-sm text-muted">Expense not found.</p>
+      </div>
+    );
+  }
+
+  if (expense.created_by !== user.id) {
+    return (
+      <div className="py-6 space-y-4">
+        <p className="text-sm text-muted">You are not allowed to edit this expense.</p>
+        <Link href={`/trip/${trip.code}/expenses`} className="btn btn-primary w-full">
+          Back to expenses
+        </Link>
       </div>
     );
   }
@@ -82,7 +94,6 @@ export default async function EditExpensePage({
           id: expense.id,
           title: expense.title,
           amount: Number(expense.amount),
-          payer_id: expense.payer_id,
           receipt_url: expense.receipt_url,
           splits: splits?.map((split) => ({
             user_id: split.user_id,

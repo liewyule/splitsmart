@@ -1,4 +1,4 @@
-﻿import { createServerComponentClient } from "../../../../../lib/supabase/server";
+import { createServerComponentClient } from "../../../../../lib/supabase/server";
 import { formatCurrency, formatDate } from "../../../../../lib/format";
 import Link from "next/link";
 
@@ -59,14 +59,15 @@ export default async function ExpensesPage({ params }: { params: { code: string 
           expenses.map((expense) => (
             <Link
               key={expense.id}
-              href={`/trip/${trip.code}/expenses/${expense.id}/edit`}
+              href={`/trip/${trip.code}/expenses/${expense.id}`}
               className="card block p-4"
             >
               <div className="flex items-start justify-between">
                 <div>
                   <p className="font-medium">{expense.title}</p>
                   <p className="mt-1 text-xs text-muted">
-                    {nameMap.get(expense.payer_id) ?? "Member"} · {formatDate(expense.created_at)}
+                    {nameMap.get(expense.payer_id) ?? "Member"} -{" "}
+                    {formatDate(expense.created_at)}
                   </p>
                 </div>
                 <p className="text-sm font-semibold">{formatCurrency(Number(expense.amount))}</p>

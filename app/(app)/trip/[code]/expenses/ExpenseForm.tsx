@@ -27,7 +27,6 @@ type ExpenseFormProps = {
     id: string;
     title: string;
     amount: number;
-    payer_id: string;
     splits: Split[];
     receipt_url?: string | null;
   };
@@ -61,7 +60,6 @@ export default function ExpenseForm({
   const [isPending, startTransition] = useTransition();
   const [title, setTitle] = useState(initial?.title ?? "");
   const [amount, setAmount] = useState(initial?.amount.toString() ?? "");
-  const [payerId, setPayerId] = useState(initial?.payer_id ?? currentUserId);
   const [receiptUrl, setReceiptUrl] = useState(initial?.receipt_url ?? "");
   const [uploading, setUploading] = useState(false);
   const [splitMode, setSplitMode] = useState<"equal" | "custom">(
@@ -83,6 +81,10 @@ export default function ExpenseForm({
   }, [splitMode, numericAmount, members]);
 
   const totalSplit = useMemo(() => sumSplits(splits), [splits]);
+  const currentMember = useMemo(
+    () => members.find((member) => member.id === currentUserId),
+    [members, currentUserId]
+  );
 
   const handleCustomSplitChange = (userId: string, value: string) => {
     const amountValue = Number(value || 0);
@@ -127,7 +129,6 @@ export default function ExpenseForm({
       expenseId: initial?.id,
       title,
       amount: numericAmount,
-      payerId,
       splits,
       receiptUrl: receiptUrl || null
     };
@@ -167,20 +168,12 @@ export default function ExpenseForm({
             placeholder="0.00"
           />
         </label>
-        <label className="block text-sm font-medium">
-          Paid by
-          <select
-            className="input mt-2"
-            value={payerId}
-            onChange={(event) => setPayerId(event.target.value)}
-          >
-            {members.map((member) => (
-              <option key={member.id} value={member.id}>
-                {member.username}
-              </option>
-            ))}
-          </select>
-        </label>
+        <div className="space-y-1 text-sm">
+          <p className="font-medium">Paid by</p>
+          <p className="text-muted">
+            You{currentMember?.username ? ` (${currentMember.username})` : ""}
+          </p>
+        </div>
         <div className="space-y-2">
           <p className="text-sm font-medium">Receipt photo</p>
           <label className="flex items-center justify-between rounded-xl border border-border/70 bg-white px-4 py-3 text-sm">

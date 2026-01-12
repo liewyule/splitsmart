@@ -34,6 +34,10 @@ body {
   @apply bg-accentSoft text-ink hover:bg-sky-100;
 }
 
+.btn-danger {
+  @apply bg-rose-600 text-white hover:bg-rose-700;
+}
+
 .link {
   @apply text-ink underline-offset-4 hover:underline;
 }

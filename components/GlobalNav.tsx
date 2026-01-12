@@ -23,7 +23,7 @@ export default function GlobalNav() {
             <Link
               key={item.label}
               href={item.href}
-              className={`flex flex-col items-center gap-1 text-xs ${active ? "text-accent" : "text-muted"}`}
+              className={`flex flex-col items-center gap-1 rounded-xl px-3 py-2 text-xs ${active ? "text-accent" : "text-muted"}`}
             >
               <Icon className="h-5 w-5" />
               {item.label}

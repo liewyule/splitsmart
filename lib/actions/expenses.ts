@@ -13,7 +13,6 @@ type ExpensePayload = {
   expenseId?: string;
   title: string;
   amount: number;
-  payerId: string;
   splits: SplitInput[];
   receiptUrl?: string | null;
 };
@@ -44,7 +43,7 @@ async function assertMembership(
 }
 
 export async function createExpenseAction(payload: ExpensePayload) {
-  const { tripCode, title, amount, payerId, splits, receiptUrl } = payload;
+  const { tripCode, title, amount, splits, receiptUrl } = payload;
   if (!title || amount <= 0) {
     return { error: "Title and amount are required." };
   }
@@ -72,9 +71,6 @@ export async function createExpenseAction(payload: ExpensePayload) {
     .select("user_id")
     .eq("trip_id", trip.id);
   const memberIds = new Set(memberRows?.map((row) => row.user_id) ?? []);
-  if (!memberIds.has(payerId)) {
-    return { error: "Payer must be a trip member." };
-  }
   if (splits.some((split) => !memberIds.has(split.user_id))) {
     return { error: "All splits must be trip members." };
   }
@@ -85,7 +81,7 @@ export async function createExpenseAction(payload: ExpensePayload) {
       trip_id: trip.id,
       title,
       amount: round2(amount),
-      payer_id: payerId,
+      payer_id: user.id,
       created_by: user.id,
       receipt_url: receiptUrl ?? null
     })
@@ -112,7 +108,7 @@ export async function createExpenseAction(payload: ExpensePayload) {
 }
 
 export async function updateExpenseAction(payload: ExpensePayload) {
-  const { tripCode, expenseId, title, amount, payerId, splits, receiptUrl } = payload;
+  const { tripCode, expenseId, title, amount, splits, receiptUrl } = payload;
   if (!expenseId) return { error: "Missing expense." };
   if (!title || amount <= 0) return { error: "Title and amount are required." };
   if (sumSplits(splits) !== round2(amount)) return { error: "Splits must equal total amount." };
@@ -131,14 +127,20 @@ export async function updateExpenseAction(payload: ExpensePayload) {
   if (!trip) return { error: "Trip not found." };
 
   await assertMembership(trip.id, user.id, supabase);
+  const { data: expense } = await supabase
+    .from("expenses")
+    .select("id, created_by")
+    .eq("id", expenseId)
+    .eq("trip_id", trip.id)
+    .maybeSingle();
+  if (!expense) return { error: "Expense not found." };
+  if (expense.created_by !== user.id) return { error: "Not allowed to edit this expense." };
+
   const { data: memberRows } = await supabase
     .from("trip_members")
     .select("user_id")
     .eq("trip_id", trip.id);
   const memberIds = new Set(memberRows?.map((row) => row.user_id) ?? []);
-  if (!memberIds.has(payerId)) {
-    return { error: "Payer must be a trip member." };
-  }
   if (splits.some((split) => !memberIds.has(split.user_id))) {
     return { error: "All splits must be trip members." };
   }
@@ -148,7 +150,6 @@ export async function updateExpenseAction(payload: ExpensePayload) {
     .update({
       title,
       amount: round2(amount),
-      payer_id: payerId,
       receipt_url: receiptUrl ?? null
     })
     .eq("id", expenseId);
@@ -192,6 +193,14 @@ export async function deleteExpenseAction(tripCode: string, expenseId: string) {
   if (!trip) return { error: "Trip not found." };
 
   await assertMembership(trip.id, user.id, supabase);
+  const { data: expense } = await supabase
+    .from("expenses")
+    .select("id, created_by")
+    .eq("id", expenseId)
+    .eq("trip_id", trip.id)
+    .maybeSingle();
+  if (!expense) return { error: "Expense not found." };
+  if (expense.created_by !== user.id) return { error: "Not allowed to delete this expense." };
 
   const { error } = await supabase.from("expenses").delete().eq("id", expenseId);
   if (error) return { error: error.message };

@@ -52,8 +52,18 @@ export default async function TripDashboard({ params }: { params: { code: string
   return (
     <div className="py-6">
       <div className="card p-5">
-        <p className="text-sm text-muted">Trip code</p>
-        <h2 className="mt-2 text-2xl font-semibold tracking-[0.25em]">{trip.code}</h2>
+        <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
+          <div>
+            <p className="text-sm text-muted">Trip name</p>
+            <h3 className="mt-2 text-2xl font-semibold">{trip.name}</h3>
+          </div>
+          <div>
+            <p className="text-sm text-muted">Trip code</p>
+            <h1 className="mt-2 text-xl font-semibold tracking-[0.25em]">{trip.code}</h1>
+          </div>
+        </div>
+
+
         <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
           <div>
             <p className="text-muted">Members</p>

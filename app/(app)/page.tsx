@@ -71,99 +71,44 @@ export default async function HomePage() {
       <div className="mt-6 space-y-4">
         <Link
           href="/trip/create"
-          className="card block rounded-2xl border border-border/70 p-6 shadow-card transition hover:-translate-y-0.5 hover:shadow-soft"
+          className="card block rounded-3xl border border-border/70 p-6 shadow-card transition hover:-translate-y-1 hover:shadow-soft"
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="rounded-2xl bg-accentSoft p-3 text-accent">
-                <Sparkles className="h-5 w-5" />
+              <div className="rounded-2xl bg-accentSoft p-4 text-accent">
+                <Sparkles className="h-6 w-6" />
               </div>
               <div>
-                <h2 className="text-lg font-semibold">Create Trip</h2>
-                <p className="mt-1 text-sm text-muted">
-                  Start a new trip, get a 6-digit code, and invite friends instantly.
+                <h2 className="text-xl font-semibold">Create Trip</h2>
+                <p className="mt-1 text-base text-muted">
+                  Start a new trip and split expenses with friends.
                 </p>
               </div>
             </div>
-            <ChevronRight className="h-4 w-4 text-muted" />
+            <ChevronRight className="h-5 w-5 text-muted" />
           </div>
         </Link>
         <Link
           href="/trip/join"
-          className="card block rounded-2xl border border-border/70 p-6 shadow-card transition hover:-translate-y-0.5 hover:shadow-soft"
+          className="card block rounded-3xl border border-border/70 p-6 shadow-card transition hover:-translate-y-1 hover:shadow-soft"
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="rounded-2xl bg-accentSoft p-3 text-accent">
-                <Compass className="h-5 w-5" />
+              <div className="rounded-2xl bg-accentSoft p-4 text-accent">
+                <Compass className="h-6 w-6" />
               </div>
               <div>
-                <h2 className="text-lg font-semibold">Join Trip</h2>
-                <p className="mt-1 text-sm text-muted">
-                  Enter a 6-digit code to join a shared trip and start splitting.
+                <h2 className="text-xl font-semibold">Join Trip</h2>
+                <p className="mt-1 text-base text-muted">
+                  Join an existing trip using a 6-digit code.
                 </p>
               </div>
             </div>
-            <ChevronRight className="h-4 w-4 text-muted" />
+            <ChevronRight className="h-5 w-5 text-muted" />
           </div>
         </Link>
       </div>
 
-      <div className="mt-8">
-        <div className="flex items-center justify-between text-sm font-semibold text-muted">
-          <div className="flex items-center gap-2">
-            <Users className="h-4 w-4 text-accent" />
-            Your trips
-          </div>
-          <Link href="/trips" className="text-xs text-accent hover:underline">
-            See all
-          </Link>
-        </div>
-        <div className="mt-4 space-y-3">
-          {myTrips?.length ? (
-            myTrips.map((row) => {
-              const trip = row.trips as any;
-              const members = membersByTrip.get(row.trip_id) ?? [];
-              return (
-                <Link key={trip.id} href={`/trip/${trip.code}`} className="card block p-5">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-base font-semibold">{trip.name}</p>
-                      <p className="mt-1 text-xs text-muted">Code {trip.code}</p>
-                    </div>
-                    <span className="rounded-full bg-accentSoft px-3 py-1 text-xs text-ink">
-                      {members.length} members
-                    </span>
-                  </div>
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    {members.slice(0, 4).map((member) => (
-                      <span
-                        key={`${trip.id}-${member}`}
-                        className="rounded-full border border-border/60 bg-white px-3 py-1 text-xs text-muted"
-                      >
-                        {member}
-                      </span>
-                    ))}
-                    {members.length > 4 ? (
-                      <span className="text-xs text-muted">+{members.length - 4} more</span>
-                    ) : null}
-                  </div>
-                </Link>
-              );
-            })
-          ) : (
-            <div className="card flex items-start gap-3 p-6 text-sm text-muted">
-              <div className="rounded-full bg-accentSoft p-2 text-accent">
-                <Users className="h-4 w-4" />
-              </div>
-              <div>
-                <p className="font-medium text-ink">No trips yet</p>
-                <p className="mt-1 text-sm text-muted">Create a new trip or join one with a code.</p>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
     </main>
   );
 }
