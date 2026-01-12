@@ -8,6 +8,7 @@
 
 body {
   @apply bg-white text-ink antialiased;
+  font-family: "DM Sans", "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
 }
 
 .app-shell {
