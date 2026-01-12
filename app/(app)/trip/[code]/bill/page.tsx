@@ -113,7 +113,7 @@ export default async function BillPage({ params }: { params: { code: string } })
                 href={`/trip/${trip.code}/expenses/${item.expense.id}`}
                 prefetch
                 className={`card block p-4 pressable pressable-card motion-safe:transition motion-safe:duration-200 ${
-                  item.expense.payer_id === user.id ? "border-emerald-400 bg-emerald-200" : ""
+                  item.expense.payer_id === user.id ? "!border-emerald-100 !bg-emerald-50" : ""
                 }`}
               >
                 <div className="flex items-center justify-between">
