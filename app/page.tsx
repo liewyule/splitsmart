@@ -1,5 +1,6 @@
 ﻿import Link from "next/link";
 import { ArrowUpRight, Compass, Sparkles, Users } from "lucide-react";
+import { redirect } from "next/navigation";
 import { createServerComponentClient } from "../lib/supabase/server";
 import { signOut } from "../lib/actions/auth";
 
@@ -8,6 +9,10 @@ export default async function HomePage() {
   const {
     data: { user }
   } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login");
+  }
 
   const { data: profile } = await supabase
     .from("profiles")
