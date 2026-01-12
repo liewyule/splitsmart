@@ -38,11 +38,14 @@ export async function signUp(_prevState: any, formData: FormData) {
     return { error: error.message };
   }
 
-  // Profile is created on first successful sign-in to avoid RLS issues
-  // when email confirmation is enabled.
+  const user = data.user;
+  const hasSession = Boolean(data.session);
+  if (user && hasSession) {
+    await ensureProfile(user);
+  }
 
   revalidatePath("/");
-  redirect("/");
+  return { success: true, needsEmailConfirmation: !hasSession };
 }
 
 export async function signIn(_prevState: any, formData: FormData) {
